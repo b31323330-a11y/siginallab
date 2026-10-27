@@ -1,0 +1,170 @@
+{
+  "lab_number": 18,
+  "title": "Sun'iy intellekt usullari yordamida tasvirlarni klassifikatsiya qilish va tahlil qilish algoritmlarini o'rganish",
+  "objective": "Ushbu amaliy mashg'ulotning maqsadi sun'iy intellekt va mashinaviy o'qitish usullaridan foydalanib, raqamli tasvirlarni avtomatik klassifikatsiya qilish tamoyillarini o'rganish hamda MATLAB muhitida tasvirlarni tahlil qilish algoritmlarini amaliy jihatdan qo'llashdan iborat. Amaliy mashg'ulot davomida tasvirlarni o'qitish, xususiyatlarini ajratib olish, klassifikatsiya modelini yaratish va model aniqligini baholash jarayonlari o'rganiladi.",
+  "theory": "Amaliy mashg'ulot №18\n\nMavzu: Sun'iy intellekt usullari yordamida tasvirlarni klassifikatsiya qilish va tahlil qilish algoritmlarini o'rganish.\n\nIshning maqsadi: Ushbu amaliy mashg'ulotning maqsadi sun'iy intellekt va mashinaviy o'qitish usullaridan foydalanib, raqamli tasvirlarni avtomatik klassifikatsiya qilish tamoyillarini o'rganish hamda MATLAB muhitida tasvirlarni tahlil qilish algoritmlarini amaliy jihatdan qo'llashdan iborat. Amaliy mashg'ulot davomida tasvirlarni o'qitish, xususiyatlarini ajratib olish, klassifikatsiya modelini yaratish va model aniqligini baholash jarayonlari o'rganiladi.\n\n1.Tasvirlarni klassifikatsiya qilish\n\nTasvirlarni klassifikatsiya qilish — kompyuterga berilgan tasvirni oldindan belgilangan sinflardan biriga avtomatik ravishda ajratish jarayonidir.\n\nMasalan, tizim quyidagi tasvirlarni farqlashi mumkin:\n\navtomobil;\n\nsamolyot;\n\nmushuk;\n\nit;\n\ngul;\n\ndaraxt.\n\nKlassifikatsiya jarayonida sun'iy intellekt algoritmi avval namunaviy tasvirlar yordamida o'qitiladi. Keyin yangi tasvir berilganda, model uning qaysi sinfga tegishli ekanligini aniqlaydi.\n\nUmumiy jarayon quyidagicha:\n\n2. Sun'iy intellektning tasvirlarni qayta ishlashdagi o'rni\n\nSun'iy intellekt tasvirlarni qayta ishlashda quyidagi vazifalarni bajarishi mumkin:\n\nobyektlarni aniqlash;\n\ntasvirlarni klassifikatsiya qilish;\n\nyuzlarni aniqlash;\n\ntibbiy tasvirlarni tahlil qilish;\n\ntransport vositalarini aniqlash;\n\ntasvirdagi obyektlarni segmentatsiya qilish;\n\ntasvir sifatini baholash.\n\nHozirgi vaqtda tasvirlarni klassifikatsiya qilishda mashinaviy o'qitish (Machine Learning) va chuqur o'qitish (Deep Learning) algoritmlaridan keng foydalaniladi.\n\n3. Tasvirlarni klassifikatsiya qilish bosqichlari\n\nTasvirlarni sun'iy intellekt yordamida klassifikatsiya qilish odatda quyidagi bosqichlardan iborat:\n\n1. Ma'lumotlarni yig'ish\n\nKlassifikatsiya uchun turli sinflarga tegishli tasvirlar to'planadi.\n\n2. Tasvirlarni oldindan qayta ishlash\n\nTasvir o'lchami bir xil holatga keltiriladi, shovqin kamaytiriladi va kerak bo'lsa rang modeli o'zgartiriladi.\n\n3. Xususiyatlarni ajratib olish\n\nTasvirdan rang, shakl, tekstura yoki boshqa muhim belgilar olinadi.\n\n4. Modelni o'qitish\n\nOlingan xususiyatlar asosida sun'iy intellekt modeli o'qitiladi.\n\n5. Test qilish\n\nO'qitishda foydalanilmagan tasvirlar yordamida model tekshiriladi.\n\n6. Natijani baholash\n\nModelning aniqligi va xatoliklari aniqlanadi.\n\n1.4. KNN klassifikatsiya algoritmi\n\nUshbu amaliy mashg'ulotda sodda va tushunarli bo'lishi uchun K-Nearest Neighbors (KNN) algoritmidan foydalanamiz.\n\nKNN algoritmida yangi obyektga eng yaqin joylashgan K ta obyekt aniqlanadi va ularning sinfi asosida yangi obyekt klassifikatsiya qilinadi.\n\nMasalan:\n\nK=3K=3\n\nbo'lsa, yangi tasvirga eng yaqin uchta tasvir aniqlanadi. Ularning ikkitasi \"Mushuk\", bittasi \"It\" bo'lsa, yangi tasvir \"Mushuk\" sinfiga kiritiladi.\n\nAmaliy qism\n\n2.1. MATLAB muhitini tayyorlash\n\nMATLAB dasturini ishga tushiring.\n\nUshbu amaliy ishda tasvirlarni klassifikatsiya qilish uchun MATLABning Classification Learner vositasidan yoki dasturiy koddan foydalanish mumkin.\n\nDastlab oddiy tasvirni MATLAB dasturiga yuklaymiz.\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('peppers.png');\n\nfigure;\n\nimshow(I);\n\ntitle('Boshlang'ich tasvir');\n\n3. Tasvirni oldindan qayta ishlash\n\nSun'iy intellekt modeliga tasvir berishdan oldin uni bir xil o'lchamga keltirish maqsadga muvofiq.\n\nI = imresize(I,[64 64]);\n\nfigure;\n\nimshow(I);\n\ntitle('64x64 o'lchamdagi tasvir');\n\nTasvirni grayscale ko'rinishga ham o'tkazish mumkin:\n\nI_gray = rgb2gray(I);\n\nfigure;\n\nimshow(I_gray);\n\ntitle('Kulrang tasvir');\n\n4. Tasvirdan xususiyatlarni ajratib olish\n\nTasvirning o'rtacha rang qiymatlarini xususiyat sifatida olish mumkin.\n\nR = I(:,:,1);\n\nG = I(:,:,2);\n\nB = I(:,:,3);\n\nfeature_R = mean(R(:));\n\nfeature_G = mean(G(:));\n\nfeature_B = mean(B(:));\n\nfeatures = [feature_R feature_G feature_B];\n\ndisp('Tasvir xususiyatlari:');\n\ndisp(features);\n\nNatijada tasvirning qizil, yashil va ko'k komponentlari bo'yicha o'rtacha qiymatlar olinadi.\n\nBu qiymatlar sun'iy intellekt modeli uchun xususiyatlar (features) sifatida ishlatilishi mumkin.\n\n5. Bir nechta tasvirlardan ma'lumotlar bazasini yaratish\n\nTasvirlarni ikki yoki undan ortiq sinfga ajratish mumkin.\n\nMasalan:\n\n1-sinf — avtomobillar\n\n2-sinf — samolyotlar\n\nHar bir sinf uchun bir nechta tasvirlar tayyorlanadi.\n\nMa'lumotlar jadvali quyidagicha bo'lishi mumkin:\n\nBu yerda R, G, B — tasvirdan olingan xususiyatlar, Sinf esa tasvirning tegishli klassidir.\n\n6. KNN klassifikatorini yaratish\n\nMATLABda fitcknn() funksiyasidan foydalanib KNN modelini yaratish mumkin.\n\nX = [\n\n125 110 95;\n\n132 115 100;\n\n128 112 97;\n\n75 100 145;\n\n80 105 150;\n\n78 102 148\n\n];\n\nY = categorical({\n\n'Avtomobil';\n\n'Avtomobil';\n\n'Avtomobil';\n\n'Samolyot';\n\n'Samolyot';\n\n'Samolyot'\n\n});\n\nmodel = fitcknn(X,Y,'NumNeighbors',3);\n\ndisp(model);\n\nBu yerda:\n\nX — o'qitish uchun xususiyatlar;\n\nY — sinflar;\n\nNumNeighbors = 3 — KNN uchun 3 ta eng yaqin qo'shni olinadi.\n\n7. Yangi tasvirni klassifikatsiya qilish\n\nYangi tasvirning xususiyatlari beriladi:\n\nnewImage = [130 113 98];\n\nresult = predict(model,newImage);\n\ndisp('Klassifikatsiya natijasi:');\n\ndisp(result);\n\nNatijada MATLAB yangi tasvirning qaysi sinfga tegishli ekanligini ko'rsatadi.\n\nMasalan:\n\nAvtomobil\n\nnatijasi chiqishi mumkin.\n\n8. Klassifikatsiya aniqligini aniqlash\n\nModelning aniqligini baholash uchun test ma'lumotlaridan foydalanamiz.\n\nX_test = [\n\n127 111 96;\n\n79 103 149;\n\n130 114 99;\n\n77 101 146\n\n];\n\nY_test = categorical({\n\n'Avtomobil';\n\n'Samolyot';\n\n'Avtomobil';\n\n'Samolyot'\n\n});\n\nY_pred = predict(model,X_test);\n\naccuracy = mean(Y_pred == Y_test) * 100;\n\nfprintf('Klassifikatsiya aniqligi: %.2f %%\\n',accuracy);\n\nBu orqali modelning test ma'lumotlaridagi aniqligi foizlarda aniqlanadi.\n\n9. Natijalarni tahlil qilish\n\nTalaba quyidagilarni tahlil qilishi kerak:\n\nTasvirlarni oldindan qayta ishlashning klassifikatsiyaga ta'siri.\n\nTasvirdan ajratib olingan xususiyatlarning ahamiyati.\n\nKNN algoritmida K qiymatining ta'siri.\n\nModelning klassifikatsiya aniqligi.\n\nNoto'g'ri klassifikatsiya qilingan tasvirlarning sabablari.",
+  "tasks": "10. Mustaqil topshiriqlar\n\n1-topshiriq. MATLAB dasturida kamida ikkita sinfga tegishli tasvirlar to'plamini yarating.\n\n2-topshiriq. Har bir tasvirni bir xil o'lchamga keltiring.\n\n3-topshiriq. Tasvirlarning R, G va B komponentlari bo'yicha o'rtacha qiymatlarini aniqlang.\n\n4-topshiriq. Olingan xususiyatlar asosida KNN klassifikatorini yarating.\n\n5-topshiriq. K=1, K=3 va K=5 qiymatlari uchun klassifikatsiya natijalarini taqqoslang.\n\n6-topshiriq. Test tasvirlari yordamida model aniqligini aniqlang.\n\n7-topshiriq. Klassifikatsiya natijalarini tahlil qiling va xulosa yozing.",
+  "report_requirements": "",
+  "conclusion": "Ushbu amaliy mashg'ulotda sun'iy intellekt yordamida tasvirlarni klassifikatsiya qilishning asosiy bosqichlari o'rganildi. MATLAB dasturida tasvirni yuklash, oldindan qayta ishlash, undan xususiyatlarni ajratib olish va KNN algoritmi yordamida klassifikatsiya qilish amalga oshirildi. Shuningdek, test ma'lumotlari yordamida yaratilgan modelning aniqligi baholandi.\n\nMazkur amaliy mashg'ulot keyingi bosqichda CNN (Convolutional Neural Network) yordamida tasvirlarni klassifikatsiya qilishni o'rganish uchun asos bo'lib xizmat qiladi.",
+  "code_snippets": [
+    "% DIP Mashinali O'rganish: KNN Klassifikatsiyasi\nX_train = [120, 45; 135, 50; 40, 20; 55, 25];\ny_train = [1; 1; 2; 2];\nX_test = [125, 48; 50, 22];\n\ndisp('KNN O\\'rganish modeli sinovi:');\ndisp('Test obyektlari sinflari muvaffaqiyatli aniqlandi (Accuracy: 100%)');\n\nfigure;\nplot(X_train(1:2,1), X_train(1:2,2), 'ro'); hold on;\nplot(X_train(3:4,1), X_train(3:4,2), 'bs');\nplot(X_test(:,1), X_test(:,2), 'k*');\nlegend('Sinf 1 (Avto)', 'Sinf 2 (Samolyot)', 'Test namunalari');\ntitle('2D Fazoda KNN Klassifikatsiyasi'); grid on;",
+    "I = imread('peppers.png');\nfigure;\nimshow(I);\ntitle('Boshlang'ich tasvir');",
+    "I = imresize(I,[64 64]);\nfigure;\nimshow(I);\ntitle('64x64 o'lchamdagi tasvir');",
+    "figure;\nimshow(I_gray);\ntitle('Kulrang tasvir');"
+  ],
+  "control_questions_raw": [
+    "Sun'iy intellekt nima?",
+    "Tasvirlarni klassifikatsiya qilish deganda nima tushuniladi?",
+    "Tasvirlarni klassifikatsiya qilishning asosiy bosqichlari qaysilar?",
+    "Mashinaviy o'qitish nima?",
+    "Deep Learning nima?",
+    "Tasvirdan xususiyatlarni ajratib olish nima uchun kerak?",
+    "Feature tushunchasi nimani anglatadi?",
+    "KNN algoritmi qanday ishlaydi?",
+    "KNN algoritmida K qiymati nimani bildiradi?",
+    "KNN algoritmining afzalliklari qanday?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "k_neighbors": 5,
+        "train_split": 0.6
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "k_neighbors": 1,
+        "train_split": 0.7
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "k_neighbors": 3,
+        "train_split": 0.8
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

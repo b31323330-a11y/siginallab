@@ -1,0 +1,138 @@
+{
+  "lab_number": 5,
+  "title": "Matlab dasturida shovqin va uning tasodifiy jarayon ko'rinishida tahlil qilish",
+  "objective": "Talabalarni tasodifiy jarayonlar nazariyasi bilan tanishtirish, shovqinli signallarni modellashtirish, ularning statistik va spektral xususiyatlarini Matlab muhitida tahlil qilishga o'rgatish.",
+  "theory": "5-amaliy mashg'ulot.\n\nMatlab dasturida shovqin va uning tasodifiy jarayon ko'rinishida tahlil qilish.\n\nIshning maqsadi: Talabalarni tasodifiy jarayonlar nazariyasi bilan tanishtirish, shovqinli signallarni modellashtirish, ularning statistik va spektral xususiyatlarini Matlab muhitida tahlil qilishga o'rgatish.\n\nTasodifiy jarayon tushunchasi\n\nTasodifiy jarayon — bu vaqt yoki fazoviy koordinata bo'yicha o'zgaradigan tasodifiy kattaliklar majmuasidir. Boshqacha qilib aytganda, bu vaqt davomida o'zgarib turadigan noaniq kattaliklarni ifodalovchi matematik modeldir.\nMasalan, elektr zanjirdagi termik shovqin, aloqa kanalidagi interferensiya yoki atmosfera tebranishlari tasodifiy jarayonlarga misol bo'la oladi.\n\nFormal ravishda tasodifiy jarayon X(t) quyidagicha ifodalanadi:\n\nBu yerda har bir xi(t) — tasodifiy kattalikning ma'lum bir tajribadagi (yoki realizatsiyadagi) qiymati.\n\nTasodifiy jarayonlarning asosiy turlari\n\nTasodifiy jarayonlar vaqt va ehtimollik xossalariga ko'ra quyidagi turlarga bo'linadi:\n\nStasionar jarayonlar – statistik xossalari (o'rtacha qiymat, dispersiya, korrelyatsiya) vaqtga bog'liq bo'lmagan jarayonlar.\n\nNostasionar jarayonlar – statistik xossalari vaqtga bog'liq bo'lgan jarayonlar.\n\nDiskret va uzluksiz jarayonlar — argument (vaqt) diskret yoki uzluksiz o'lchovda berilganiga qarab farqlanadi.\n\nShovqin tushunchasi va turlari\n\nShovqin (Noise) — foydali signalga tasodifiy tarzda qo'shiladigan, unga xalaqit beruvchi tebranishlardir. Shovqin tabiiy (fizik) yoki sun'iy manbalardan paydo bo'lishi mumkin.\n\nAsosiy shovqin turlari:\n\nShovqinning fizik manbalari\n\nShovqin turli fizik jarayonlar natijasida paydo bo'ladi:\n\nTermik shovqin — elektr qarshilikdagi elektronlarning issiqlik harakati.\n\nShot-noise — elektron yoki foton oqimining tasodifiyligi sababli yuzaga keladi.\n\nFlicker noise (1/f noise) — past chastotalarda kuzatiladi, tranzistor va detektorli tizimlarda uchraydi.\n\nAtmosfera va kosmik shovqinlar — tabiiy elektromagnit tebranishlar natijasi.",
+  "tasks": "Topshiriq:\n\n1. Signal va shovqin yaratish. Ularni spektral tahlil qilish.\n\nt = 0:0.001:1;\n\nf=50 % Hz\n\nsignal = sin(2*pi*50*t);        % asosiy signal\n\nnoise = 0.3*randn(size(t));     % shovqin\n\nnoisy_signal = signal + noise;  % shovqin qoshish\n\nfigure;\n\nplot(t, signal);\n\ntitle('Signal');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Asl signal');\n\ngrid on;\n\nplot(t, noise);\n\ntitle('Shovqin');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Shovqin');\n\ngrid on;\n\nplot(t, noisy_signal);\n\ntitle('Shovqinli signal');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Shovqinli signal');\n\ngrid on;\n\nTopshiriq:\n\nFazasi turlicha bo'lgan ikkita signalni qurib taqqoslang.",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% Shovqinlar va ularning statistik tahlili\nFs = 1000;\nt = 0:1/Fs:1;\nf0 = 15;\nsignal_clean = sin(2*pi*f0*t);\nnoise = 0.4 * randn(size(t));\nnoisy_signal = signal_clean + noise;\n\nP_sig = mean(signal_clean.^2);\nP_noise = mean(noise.^2);\nsnr_calc = 10 * log10(P_sig / P_noise);\ndisp(['Signal-Shovqin nisbati SNR (dB): ', num2str(snr_calc)]);\n\nfigure;\nsubplot(3,1,1); plot(t, signal_clean, 'b'); title('Toza signal'); grid on;\nsubplot(3,1,2); plot(t, noise, 'r'); title('Tasodifiy Gauss shovqini'); grid on;\nsubplot(3,1,3); plot(t, noisy_signal, 'k'); title('Shovqinli signal'); grid on;",
+    "t = 0:0.001:1;",
+    "figure;\nplot(t, signal);\ntitle('Signal');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Asl signal');\ngrid on;\nplot(t, noise);\ntitle('Shovqin');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Shovqin');\ngrid on;\nplot(t, noisy_signal);\ntitle('Shovqinli signal');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Shovqinli signal');\ngrid on;"
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F": "25"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F": "50"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F": "50"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F": "25"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F": "50"
+      }
+    }
+  ],
+  "raw_tables_count": 2
+}

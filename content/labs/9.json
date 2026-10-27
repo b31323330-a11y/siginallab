@@ -1,0 +1,185 @@
+{
+  "lab_number": 9,
+  "title": "Tasvirlarga morfologik ishlov berishni amalga oshirish",
+  "objective": "Talabalarga tasvirlarni morfologik qayta ishlash tamoyillari, asosiy operatorlari (erroziya, kengaytirish, ochish, yopish), struktur element tushunchasi va amaliy qo'llanishlarini o'rgatish.",
+  "theory": "9-amaliy mashg'ulot.\n\nTasvirlarga morfologik ishlov berishni amalga oshirish.\n\nIshning maqsadi: Talabalarga tasvirlarni morfologik qayta ishlash tamoyillari, asosiy operatorlari (erroziya, kengaytirish, ochish, yopish), struktur element tushunchasi va amaliy qo'llanishlarini o'rgatish.\n\nBinar tasvir — bu tasvirdagi har bir piksel faqat ikki xil qiymatdan birini qabul qiladigan tasvirdir: odatda 0 (qora) va 1 yoki 255 (oq). Bunday tasvirlar kulrang (grayscale) yoki rangli tasvirdan threshold (chegara) qo'llash orqali olinadi. Thresholding jarayonida tasvirdagi piksel qiymati ma'lum chegaradan katta bo'lsa \"1\", aks holda \"0\" ga o'tkaziladi. Binary tasvirlar kompyuter ko'rish va raqamli tasvirlarni qayta ishlash sohalarida juda muhim bo'lib, ular obyektlarni segmentatsiya qilish, konturlarni ajratish, shakllarni aniqlash va geometrik xususiyatlarni o'lchash kabi amallarning asosiy bosqichidir. Binar tasvirdagi obyektlar fon bilan aniq ajratilgan bo'lgani sababli ularga morfologik amallarni qo'llash osonlashadi. Morfologik operatsiyalar aynan binary tasvirlarda eng yaxshi natija beradi, chunki ular piksel to'plamlarini struktura elementi yordamida geometrik o'zgartirishga asoslangan.\n\nMorfologik tasvirlarni qayta ishlash usullari tasvirdagi obyektlarning shakliy, geometrik va topologik xususiyatlarini o'zgartirishga qaratilgan bo'lib, ular struktur element deb ataluvchi maxsus kichik o'lchamli matritsa yordamida bajariladi. Ushbu struktur element tasvirning har bir nuqtasi ustida surilib, mos kelish yoki mos kelmaslik tamoyili asosida yangi tasvir hosil qiladi. Morfologik amallar ikki asosiy sinfga ajratiladi: asosiy amallar (eroziya va dilyatsiya) va ularning kombinatsiyasi asosida hosil qilinadigan birikma amallar (ochish, yopish, kontur, gradient, top-hat, black-hat).\n\nEroziya amali tasvirdagi obyektlarning chegaralarini ichkariga tomon \"yeyish\" orqali ularni kichraytirishga xizmat qiladi. Struktur elementning shakli va o'lchami obyektning qancha qismini yo'qotilishini belgilaydi. Agar struktur element biror nuqtada obyektga to'liq mos kelmasa, shu nuqta fon pikseliga aylantiriladi. Shu sababli eroziya tasvirdagi mayda shovqinlarni yo'qotish, yaqin joylashgan obyektlarni ajratish yoki yuzalarni silliqlashda qo'llanadi. Grayscale tasvirlarda eroziya amali har bir pikselni struktur element bilan qamrab olingan hududning minimal qiymati bilan almashtirish orqali bajariladi.\n\nDilyatsiya esa eroziyaning aksi bo'lib, obyekt chegaralarini tashqariga kengaytiradi. Struktur elementning hech bo'lmaganda bitta 1 qiymatli nuqtasi tasvirdagi obyekt bilan kesishsa, markaz nuqtasi obyekt pikseliga aylantiriladi. Bu amal obyektlarni kattalashtirish, kichik bo'shliqlarni to'ldirish, teshiklarni yopish va erozidan keyingi shaklni tiklashda ishlatiladi. Grayscale ko'rinishda esa dilyatsiya har bir pozitsiyada maksimal qiymatni tanlaydi.\n\nOchish amali eroziya va dilyatsiya ketma-ketligidan iborat bo'lib, avval obyekt kichraytiriladi, so'ng yana kengaytiriladi. Bunda obyektning umumiy shakli saqlanadi, ammo mayda detallar va kichik shovqinlar yo'qoladi. Ochish tasvirdagi fon shovqinlarini kamaytirish, mayda obyektlarni olib tashlash, sirtlar tekisligini yaxshilash uchun juda qulay vositadir. Shu bilan birga, katta obyektlarning konturi keskin o'zgarmaydi, faqat mayda nuqtalar yo'qoladi.\n\nYopish amali dilyatsiya va eroziya ketma-ketligidan iborat bo'lib, avval obyekt kengaytiriladi, so'ngra qayta qisqartiriladi. Bu amal tasvirdagi teshiklarni, kichik bo'shliqlarni va yorug'-qorong'ilikdagi uzilishlarni bartaraf etadi. Yopish yordamida obyekt ichidagi bo'sh joylar to'ldiriladi, chegaralar yumshoqroq va yaxlitroq ko'rinishga ega bo'ladi. Shu sababli u obyektlarni segmentatsiya qilishdan oldin tayyorlov bosqichida keng qo'llanadi.\n\nKontur olish amali tasvirdagi obyektlarning tashqi chegaralarini aniqlashga qaratilgan bo'lib, odatda tasvirdan eroziya natijasini ayirish orqali bajariladi. Bu usul obyektning faqat chegara qismida farqli piksel qiymati hosil bo'lishiga olib keladi. Natijada obyektning qobiq shaklidagi ingichka konturi paydo bo'ladi. Kontur olish shakl tahlili, chekka aniqlash va topologik xususiyatlarni tadqiq qilishda muhim rol o'ynaydi.\n\nMorfologik gradient tasvirdagi obyektlarning tashqi chegaralarini yanada to'liqroq aks ettiradi. Gradient dilyatsiya bilan eroziya orasidagi farq sifatida aniqlanadi, ya'ni tasvirdagi maksimal va minimal qirralar orasidagi farqlar konturga aylantiriladi. Natija konturga o'xshash bo'lsa-da, gradient umumiy chekka kuchini ko'rsatadi va ba'zan qalinroq, ko'proq ma'lumotga ega bo'ladi.\n\nTop-hat transformatsiyasi tasvirdagi kichik, yoritilgan (yorqin) detallarni ajratib ko'rsatadi. U original tasvirdan ochish amalini ayirish orqali olinadi. Natija tasvirdagi umumiy yoritish bir xil bo'lmaganda ham yorqin detallarni aniqlashga yordam beradi. Bu metod aniq nuqtalar, kichik yoritilgan chiziqlar, notekis fon ustidagi mayda obyektlarni ko'rsatishda juda foydali.\n\nBlack-hat transformatsiyasi esa yopish amali va original tasvir o'rtasidagi farq sifatida aniqlanadi. Bu usul tasvirdagi kichik qorong'u detallarni, teshiklar va soya shaklidagi elementlarni ajratib olishga imkon beradi. U ayniqsa, yorug'lik notekis bo'lgan tasvirlarda qoramtir nuqtalarni yoki ingichka chiziqlarni aniqlash uchun qo'llanadi.",
+  "tasks": "Topshiriq:\n\nMATLAB ga ikki o'lchamli signalni import qilish, unga morfologik ishlov berish:\n\n%% Tasvirni yuklash\n\nI = imread('D:/mother.tif');\n\nIgray = rgb2gray(I);\n\nBW = imbinarize(Igray);\n\n%% Struktur element yaratish\n\nSE = strel('disk', 5);   % 5 radiusli disk\n\n%% Morfologik amallar\n\nI_erode    = imerode(BW, SE);        % Eroziya\n\nI_dilate   = imdilate(BW, SE);       % Dilyatsiya\n\nI_open     = imopen(BW, SE);         % Opening\n\nI_close    = imclose(BW, SE);        % Closing\n\nI_contour  = BW - imerode(BW, SE);   % Kontur olish\n\nI_tophat   = imtophat(Igray, SE);    % Top-hat (grayscale)\n\nI_blackhat = imbothat(Igray, SE);    % Black-hat (grayscale)\n\nI_grad     = imdilate(BW,SE) - imerode(BW,SE);  % Morfologik gradient\n\n%% Barcha natijalarni bitta oynada chiqarish\n\nfigure('Name','Morfologik amallar natijalari','NumberTitle','off');\n\nimshow(I); title('Original rasm');\n\nimshow(Igray); title('Original rasm');\n\nimshow(BW); title('Ikkilik tasvir');\n\nimshow(I_erode); title('Eroziya');\n\nimshow(I_dilate); title('Dilyatsiya');\n\nimshow(I_open); title('Opening');\n\nimshow(I_close); title('Closing');\n\nimshow(I_contour); title('Kontur');\n\nimshow(I_grad); title('Morfologik Gradient');\n\nimshowpair(I_tophat, I_blackhat, 'montage');\n\ntitle('Top-hat & Black-hat');\n\nMATLAB ga ikki o'lchamli signalni import qiling, unga turli qiymatda sturuktur element bilan morfologik ishlov bering.",
+  "report_requirements": "Natijalar (skrinshot ko'rinishida).",
+  "conclusion": "",
+  "code_snippets": [
+    "% Tasvirlarga morfologik ishlov berish\nI = imread('cameraman.png');\nBW = imbinarize(rgb2gray(I));\nse = strel('disk', 3);\n\nI_erode = imerode(BW, se);\nI_dilate = imdilate(BW, se);\nI_open = imopen(BW, se);\nI_close = imclose(BW, se);\n\nfigure;\nsubplot(2,2,1); imshow(I_erode); title('Eroziya (Qisqarish)');\nsubplot(2,2,2); imshow(I_dilate); title('Dilatatsiya (Kengayish)');\nsubplot(2,2,3); imshow(I_open); title('Ochish (Opening)');\nsubplot(2,2,4); imshow(I_close); title('Yopish (Closing)');",
+    "%% Tasvirni yuklash\nI = imread('D:/mother.tif');\nIgray = rgb2gray(I);\nBW = imbinarize(Igray);\n%% Struktur element yaratish",
+    "%% Morfologik amallar",
+    "%% Barcha natijalarni bitta oynada chiqarish\nfigure('Name','Morfologik amallar natijalari','NumberTitle','off');\nimshow(I); title('Original rasm');\nimshow(Igray); title('Original rasm');\nimshow(BW); title('Ikkilik tasvir');\nimshow(I_erode); title('Eroziya');\nimshow(I_dilate); title('Dilyatsiya');\nimshow(I_open); title('Opening');\nimshow(I_close); title('Closing');\nimshow(I_contour); title('Kontur');\nimshow(I_grad); title('Morfologik Gradient');\nimshowpair(I_tophat, I_blackhat, 'montage');\ntitle('Top-hat & Black-hat');"
+  ],
+  "control_questions_raw": [
+    "Morfologik amallar qanday maqsadlarda qo'llanadi?",
+    "Struktur elementning o'lchami natijaga qanday ta'sir qiladi?",
+    "Erosiуa va dilyatsiya orasidagi asosiy farq nima?",
+    "\"Opening\" va \"Closing\" qaysi ketma-ketlikda bajariladi?",
+    "Top-hat va Black-hat filtrlarining qo'llanishi nimada?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "se_shape": "disk",
+        "se_radius": 4,
+        "operation": "open"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "se_shape": "square",
+        "se_radius": 6,
+        "operation": "close"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "se_shape": "diamond",
+        "se_radius": 8,
+        "operation": "gradient"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "se_shape": "line",
+        "se_radius": 10,
+        "operation": "tophat"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "se_shape": "disk",
+        "se_radius": 12,
+        "operation": "open"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "se_shape": "square",
+        "se_radius": 2,
+        "operation": "close"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "se_shape": "diamond",
+        "se_radius": 4,
+        "operation": "gradient"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "se_shape": "line",
+        "se_radius": 6,
+        "operation": "tophat"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "se_shape": "disk",
+        "se_radius": 8,
+        "operation": "open"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "se_shape": "square",
+        "se_radius": 10,
+        "operation": "close"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "se_shape": "diamond",
+        "se_radius": 12,
+        "operation": "gradient"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "se_shape": "line",
+        "se_radius": 2,
+        "operation": "tophat"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "se_shape": "disk",
+        "se_radius": 4,
+        "operation": "open"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "se_shape": "square",
+        "se_radius": 6,
+        "operation": "close"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "se_shape": "diamond",
+        "se_radius": 8,
+        "operation": "gradient"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "se_shape": "line",
+        "se_radius": 10,
+        "operation": "tophat"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "se_shape": "disk",
+        "se_radius": 12,
+        "operation": "open"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "se_shape": "square",
+        "se_radius": 2,
+        "operation": "close"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "se_shape": "diamond",
+        "se_radius": 4,
+        "operation": "gradient"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "se_shape": "line",
+        "se_radius": 6,
+        "operation": "tophat"
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

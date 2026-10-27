@@ -1,0 +1,159 @@
+{
+  "lab_number": 2,
+  "title": "MatLab instrumental vositasi orqali bir va ikki o'lchovli signallarga dastlabki ishlov berishni o'rganish",
+  "objective": "Talabalarga 1-o'lchovli (vaqt domeni) va 2-o'lchovli (tasvir) signallarni MATLAB yordamida tahlil qilish, oldindan ishlov berish (preprocessing) usullarini amalda o'rgatish.",
+  "theory": "2-amaliy mashg'ulot.\n\nMatLab instrumental vositasi orqali bir va ikki o'lchovli signallarga dastlabki ishlov berishni o'rganish.\n\nIshning maqsadi: Talabalarga 1-o'lchovli (vaqt domeni) va 2-o'lchovli (tasvir) signallarni MATLAB yordamida tahlil qilish, oldindan ishlov berish (preprocessing) usullarini amalda o'rgatish.\n\n1D signal: x(t) yoki diskret ko'rinishda x[n]\nBu yerda t — vaqt, n — diskret indeks.\n\nMisollar:\n\nMikrofon yozuvi (audio)\n\nSensor chiqishi (masalan, bosim o'zgarishi)\n\nElektr tarmoqlaridagi kuchlanish grafigi\n\n2-o'lchovli signal — bu odatda ikkita mustaqil o'zgaruvchiga bog'liq signal. Amaliyotda eng ko'p uchraydigan misol — tasvir.\n\n2D signal: x(m,n). Bu yerda m va n — ikkita indeks (odatda satr va ustun), signal qiymati esa piksellar intensivligi (rang yoki kulrang daraja).\n\nMisollar:\n\nRasm va fotosuratlar (kulrang yoki rangli)\n\nTibbiy tasvirlar (rentgen, MRI)\n\nYerning sun'iy yo'ldosh tasvirlari\n\n2D radar/sensor xaritalari",
+  "tasks": "Topshiriq variantlari:\n\n1. Variant 1:\n\nMATLAB da 1D sinusoidal signal hosil qilish va ularni qo'shish:\n\nfs = 1000;               % namunalanish chastotasi (Hz)\n\nt = 0:1/fs:1-1/fs;       % vaqt vektori (1 soniya)\n\nf1 = 10;                  % chastota (Hz)\n\nf2 = 30;\n\nx = sin(2*pi*f1*t);       % 1D sinusoidal signal\n\ny = sin(2*pi*f2*t);\n\nz = x + y;\n\nfigure;\n\nplot(t, x);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('1-olchovli sinusoidal signal');\n\ngrid on;\n\nfigure;\n\nplot(t, y);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('1-olchovli sinusoidal signal');\n\ngrid on;\n\nfigure;\n\nplot(t, z);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('1-olchovli sinusoidal signal yig'indisi');\n\ngrid on;\n\n2. Variant 2:\n\nMATLAB da 2D signallarni tahlil qilish va qayta ishlash:\n\n% Tasvirni o'qish\n\nI = imread('D:\\\\1122.jpg');   % standart rangli tasvir\n\nIgray = rgb2gray(I);         % kulrangga o'tkazish\n\n% Ko'rsatish\n\nfigure;\n\nsubplot(1,2,1); imshow(I); title('Asl rangli tasvir');\n\nsubplot(1,2,2); imshow(Igray); title('Kulrang tasvir');\n\nfigure; imhist(Igray); title('Asl tasvir histogrammasi');\n\n% Histogram tenglashtirish\n\nI_eq = histeq(Igray);\n\nimwrite(Igray,\"D:\\\\gray1122.png\");\n\nTopshiriq:\n\nMATLAB da variant asosida 1D sinusoidal signal hosil qiling va ularni qo'shing\n\nMATLAB da o'zingizga tegishli bo'lgan suratning 2D signalini oling, uni oq qora tasvirga aylantiring va gistogrammasini hosil qiling. Oq-qora rasmni diskka yozing.",
+  "report_requirements": "Topshiriq varianti.\n\nOlingan grafiklar tasvirlari.\n\nNatijalar tasvirlari (skrinshot ko'rinishida)",
+  "conclusion": "",
+  "code_snippets": [
+    "% 1D sinusoidal signal va 2D tasvir\nfs = 1000;\nt = 0:1/fs:1-1/fs;\nf1 = 10;\nf2 = 30;\nx = sin(2*pi*f1*t);\ny = sin(2*pi*f2*t);\nz = x + y;\n\nfigure;\nsubplot(2,1,1);\nplot(t, x);\ntitle('1-o\\'lchovli sinusoidal signal (f = 10 Hz)');\nxlabel('Vaqt (s)'); ylabel('Amplituda'); grid on;\n\nsubplot(2,1,2);\nplot(t, z);\ntitle('Ikkita signal yig\\'indisi (10 Hz + 30 Hz)');\nxlabel('Vaqt (s)'); ylabel('Amplituda'); grid on;",
+    "fs = 1000;               % namunalanish chastotasi (Hz)\nt = 0:1/fs:1-1/fs;       % vaqt vektori (1 soniya)\nf1 = 10;                  % chastota (Hz)\nf2 = 30;\nx = sin(2*pi*f1*t);       % 1D sinusoidal signal\ny = sin(2*pi*f2*t);\nz = x + y;\nfigure;\nplot(t, x);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('1-olchovli sinusoidal signal');\ngrid on;\nfigure;\nplot(t, y);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('1-olchovli sinusoidal signal');\ngrid on;\nfigure;\nplot(t, z);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('1-olchovli sinusoidal signal yig'indisi');\ngrid on;",
+    "% Tasvirni o'qish\nI = imread('D:\\\\1122.jpg');   % standart rangli tasvir",
+    "% Ko'rsatish\nfigure;\nsubplot(1,2,1); imshow(I); title('Asl rangli tasvir');\nsubplot(1,2,2); imshow(Igray); title('Kulrang tasvir');\nfigure; imhist(Igray); title('Asl tasvir histogrammasi');\n% Histogram tenglashtirish\nI_eq = histeq(Igray);\nimwrite(Igray,\"D:\\\\gray1122.png\");"
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F1": "10",
+        "F2": "20"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F1": "15",
+        "F2": "40"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F1": "20",
+        "F2": "50"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F1": "25",
+        "F2": "60"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F1": "30",
+        "F2": "70"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F1": "10",
+        "F2": "80"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F1": "15",
+        "F2": "90"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F1": "20",
+        "F2": "80"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F1": "25",
+        "F2": "50"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F1": "30",
+        "F2": "100"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F1": "10",
+        "F2": "20"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F1": "15",
+        "F2": "40"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F1": "20",
+        "F2": "50"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F1": "25",
+        "F2": "60"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F1": "30",
+        "F2": "70"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F1": "10",
+        "F2": "80"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F1": "15",
+        "F2": "90"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F1": "20",
+        "F2": "80"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F1": "25",
+        "F2": "50"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F1": "30",
+        "F2": "100"
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

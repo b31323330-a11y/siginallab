@@ -1,0 +1,91 @@
+0: 11-amaliy mashg‘ulot.
+1: Tasvirlarda geometrik o‘zgartirishlarni amalga oshirish.
+2: Ishning maqsadi: Talabalarga ikki o‘lchovli signallar (rasmlar) ustida siqish (compression) jarayonini amaliy ko‘rinishda ko‘rsatish, DCT, DWT va JPEG prinsiplaridan foydalanib siqish algoritmlarini qo‘llashni o‘rgatish.
+3: Nazariy qism: Diskret kosinus transformatsiyasi (DCT) — bu raqamli signallarni (xususan, tasvirlarni) vaqt/bo‘shliq domenidan chastota domeniga o‘tkazuvchi ortogonal transformatsiya. DCT, ayniqsa, tasvirlarni siqishda juda keng qo‘llaniladi (JPEG formati asosiy bosqichi).
+4: DCT ning asosiy g‘oyasi:
+5: tasvirdagi ortiqcha ma’lumotlarni yuqori chastota koeffitsientlari ko‘rinishiga yig‘ish,
+6: past chastotalarni esa maksimal darajada saqlash,
+7: yuqori chastotali energiyani esa kesish yoki kvantlash orqali kamaytirish.
+8: Bu jarayon tasvir sifatini sezilarli o‘zgartirmasdan katta siqish darajasini ta’minlaydi.
+9: 1 o‘lchovli signal uchun DCT quyidagicha aniqlanadi:
+11: Bu yerda:
+13: 2D DCT — bu 1D DCT ni ikki marta qo‘llash:
+15: Bu yerda:
+16: f(x,y) – 8×8 blokdagi piksel qiymati
+17: C(u,v) – DCT koeffitsienti
+18: u, v – chastota indekslari
+19: MATLABda 2D–DCT bu ikki bosqichda bajariladi:
+20: 8×8 bloklarga bo‘lish
+21: JPEG standarti tasvirni 8×8 bloklarga ajratadi:
+22: [ 8x8 block 1 ] [ 8x8 block 2 ] [ 8x8 block 3 ]
+23: [ 8x8 block 4 ] [ 8x8 block 5 ] [ 8x8 block 6 ]
+24: ...
+25: Sababi:
+26: Inson ko‘zi kichik bloklardagi o‘zgarishni sezmaydi
+27: Hisoblash tez
+28: DCT 8×8 o‘lchamda optimal ishlaydi
+29: 2. Har blokka 2D DCT qo‘llash
+30: MATLAB bu uchun tayyor funksiyani taqdim etadi:
+31: d = dct2(block);
+32: Bu yuqoridagi 2D DCT formulasini bajaradi.
+33: 3. Kvantlash
+34: Siqishning asosiy bosqichi.
+35: DCT koeffitsientlari Q qiymatiga bo‘linadi:
+36: dq = round(d / Q);
+37: Q – siqish darajasi.
+38: Q kichik bo‘lsa → ko‘p koeffitsientlar nolga aylanadi → kuchli siqish
+39: Q katta bo‘lsa → sifat yaxshi, siqish kam
+40: Misol:
+41: 4. IDCT yordamida qayta tiklash
+42: block2 = idct2(dq * Q);
+43: DCT → IDCT — asl rasmga yaqin natija beradi
+44: Kvantlash tufayli ma’lum yo‘qotish bo‘ladi
+46: Topshiriq:
+47: MATLAB da ikki o‘lchovli signalni DCT asosida siqishni amalga oshirish:
+48: %% 2D-DCT asosida rasm siqish
+49: clear; clc; close all;
+50: % Rasmni yuklash
+51: img = imread('1.jpg');
+52: img = rgb2gray(img);
+53: img = double(img);
+54: % --- Siqish darajasi ---
+55: Q = 80;   % Q ni o'zgartirib siqish kuchini boshqarasiz (masalan: 20, 40, 80)
+56: [H, W] = size(img);
+57: recon = zeros(H, W);
+58: % 8x8 bloklar bo'yicha DCT asosida siqish
+59: for i = 1:8:H
+60:     for j = 1:8:W
+61:         block = img(i:i+7, j:j+7);
+62:         % DCT
+63:         d = dct2(block);
+64:         % Kvantlash
+65:         d = round(d / Q);
+66:         % Tiklash uchun qayta ko'paytirish
+67:         d = d * Q;
+68:         % IDCT
+69:         recon(i:i+7, j:j+7) = idct2(d);
+70:     end
+71: end
+72: % Yakuniy rasm
+73: recon = uint8(recon);
+74: % Natijani saqlash
+75: imwrite(recon, ['compressed_Q1' num2str(Q) '.png']);
+76: % Ko'rsatish
+77: figure;
+78: subplot(1,2,1); imshow(uint8(img)); title('Original');
+79: subplot(1,2,2); imshow(recon); title(['DCT siqilgan (Q = ' num2str(Q) ')']);
+84: MATLAB da ikki o‘lchovli signalni DCT asosida siqishni amalga oshiring.
+85: Hisobot tarkibi.
+86: Natijalar (skrinshot ko‘rinishida).
+87: Xulosa.
+88: Nazorat savollari:
+89: DCT ning asosiy maqsadi nima va tasvir siqish jarayonida qanday rol o‘ynaydi?
+90: 1D va 2D DCT o‘rtasidagi asosiy farq nimada?
+91: DCT formulalaridagi α(k) normallash koeffitsientining vazifasi nima?
+92: 2D DCT koeffitsientlar matritsasida DC (C(0,0)) elementi nimani bildiradi?
+93: Nima uchun yuqori chastotali DCT koeffitsientlari siqishda kesiladi yoki kvantlanadi?
+94: JPEG standarti nima uchun aynan 8×8 bloklardan foydalanadi?
+95: Kvantlash (quantization) nima va u siqish jarayoniga qanday ta’sir qiladi?
+96: Siqish darajasi Q ning qiymatini o‘zgartirish tasvir sifatiga qanday ta’sir ko‘rsatadi?
+97: DCT asosida siqishda yo‘qotish (lossy) qaysi bosqichda yuzaga keladi?
+98:  MATLABda dct2() funksiyasi qanday maqsadda ishlatiladi?

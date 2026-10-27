@@ -1,0 +1,172 @@
+{
+  "lab_number": 11,
+  "title": "Tasvirlarda geometrik o'zgartirishlarni amalga oshirish",
+  "objective": "Talabalarga ikki o'lchovli signallar (rasmlar) ustida siqish (compression) jarayonini amaliy ko'rinishda ko'rsatish, DCT, DWT va JPEG prinsiplaridan foydalanib siqish algoritmlarini qo'llashni o'rgatish.",
+  "theory": "11-amaliy mashg'ulot.\n\nTasvirlarda geometrik o'zgartirishlarni amalga oshirish.\n\nIshning maqsadi: Talabalarga ikki o'lchovli signallar (rasmlar) ustida siqish (compression) jarayonini amaliy ko'rinishda ko'rsatish, DCT, DWT va JPEG prinsiplaridan foydalanib siqish algoritmlarini qo'llashni o'rgatish.\n\nDCT ning asosiy g'oyasi:\n\ntasvirdagi ortiqcha ma'lumotlarni yuqori chastota koeffitsientlari ko'rinishiga yig'ish,\n\npast chastotalarni esa maksimal darajada saqlash,\n\nyuqori chastotali energiyani esa kesish yoki kvantlash orqali kamaytirish.\n\nBu jarayon tasvir sifatini sezilarli o'zgartirmasdan katta siqish darajasini ta'minlaydi.\n\n1 o'lchovli signal uchun DCT quyidagicha aniqlanadi:\n\nBu yerda:\n\n2D DCT — bu 1D DCT ni ikki marta qo'llash:\n\nBu yerda:\n\nf(x,y) – 8×8 blokdagi piksel qiymati\n\nC(u,v) – DCT koeffitsienti\n\nu, v – chastota indekslari\n\nMATLABda 2D–DCT bu ikki bosqichda bajariladi:\n\n8×8 bloklarga bo'lish\n\nJPEG standarti tasvirni 8×8 bloklarga ajratadi:\n\n[ 8x8 block 1 ] [ 8x8 block 2 ] [ 8x8 block 3 ]\n\n[ 8x8 block 4 ] [ 8x8 block 5 ] [ 8x8 block 6 ]\n\n...\n\nSababi:\n\nInson ko'zi kichik bloklardagi o'zgarishni sezmaydi\n\nHisoblash tez\n\nDCT 8×8 o'lchamda optimal ishlaydi\n\n2. Har blokka 2D DCT qo'llash\n\nMATLAB bu uchun tayyor funksiyani taqdim etadi:\n\nd = dct2(block);\n\nBu yuqoridagi 2D DCT formulasini bajaradi.\n\n3. Kvantlash\n\nSiqishning asosiy bosqichi.\n\nDCT koeffitsientlari Q qiymatiga bo'linadi:\n\ndq = round(d / Q);\n\nQ – siqish darajasi.\n\nQ kichik bo'lsa → ko'p koeffitsientlar nolga aylanadi → kuchli siqish\n\nQ katta bo'lsa → sifat yaxshi, siqish kam\n\nMisol:\n\n4. IDCT yordamida qayta tiklash\n\nblock2 = idct2(dq * Q);\n\nDCT → IDCT — asl rasmga yaqin natija beradi\n\nKvantlash tufayli ma'lum yo'qotish bo'ladi",
+  "tasks": "Topshiriq:\n\nMATLAB da ikki o'lchovli signalni DCT asosida siqishni amalga oshirish:\n\n%% 2D-DCT asosida rasm siqish\n\nclear; clc; close all;\n\n% Rasmni yuklash\n\nimg = imread('1.jpg');\n\nimg = rgb2gray(img);\n\nimg = double(img);\n\n% --- Siqish darajasi ---\n\nQ = 80;   % Q ni o'zgartirib siqish kuchini boshqarasiz (masalan: 20, 40, 80)\n\n[H, W] = size(img);\n\nrecon = zeros(H, W);\n\n% 8x8 bloklar bo'yicha DCT asosida siqish\n\nfor i = 1:8:H\n\nfor j = 1:8:W\n\nblock = img(i:i+7, j:j+7);\n\n% DCT\n\nd = dct2(block);\n\n% Kvantlash\n\nd = round(d / Q);\n\n% Tiklash uchun qayta ko'paytirish\n\nd = d * Q;\n\n% IDCT\n\nrecon(i:i+7, j:j+7) = idct2(d);\n\nend\n\nend\n\n% Yakuniy rasm\n\nrecon = uint8(recon);\n\n% Natijani saqlash\n\nimwrite(recon, ['compressed_Q1' num2str(Q) '.png']);\n\n% Ko'rsatish\n\nfigure;\n\nsubplot(1,2,1); imshow(uint8(img)); title('Original');\n\nsubplot(1,2,2); imshow(recon); title(['DCT siqilgan (Q = ' num2str(Q) ')']);\n\nMATLAB da ikki o'lchovli signalni DCT asosida siqishni amalga oshiring.",
+  "report_requirements": "Natijalar (skrinshot ko'rinishida).",
+  "conclusion": "",
+  "code_snippets": [
+    "% 2D DCT va tasvirni siqish\nI = imread('cameraman.png');\nIgray = rgb2gray(I);\nD = dct2(Igray);\n\nD_thresh = D;\nD_thresh(abs(D) < 20) = 0;\nI_rec = idct2(D_thresh);\n\nfigure;\nsubplot(1,2,1); imshow(Igray); title('Asl tasvir');\nsubplot(1,2,2); imshow(uint8(I_rec)); title('DCT orqali siqilgan va tiklangan tasvir');",
+    "d = dct2(block);",
+    "block2 = idct2(dq * Q);",
+    "%% 2D-DCT asosida rasm siqish\nclear; clc; close all;\n% Rasmni yuklash\nimg = imread('1.jpg');\nimg = rgb2gray(img);\nimg = double(img);\n% --- Siqish darajasi ---\nQ = 80;   % Q ni o'zgartirib siqish kuchini boshqarasiz (masalan: 20, 40, 80)\n[H, W] = size(img);\nrecon = zeros(H, W);\n% 8x8 bloklar bo'yicha DCT asosida siqish",
+    "% DCT\nd = dct2(block);\n% Kvantlash\nd = round(d / Q);\n% Tiklash uchun qayta ko'paytirish\nd = d * Q;\n% IDCT\nrecon(i:i+7, j:j+7) = idct2(d);\nend\nend\n% Yakuniy rasm\nrecon = uint8(recon);\n% Natijani saqlash\nimwrite(recon, ['compressed_Q1' num2str(Q) '.png']);\n% Ko'rsatish\nfigure;\nsubplot(1,2,1); imshow(uint8(img)); title('Original');\nsubplot(1,2,2); imshow(recon); title(['DCT siqilgan (Q = ' num2str(Q) ')']);",
+    "MATLABda dct2() funksiyasi qanday maqsadda ishlatiladi?"
+  ],
+  "control_questions_raw": [
+    "DCT ning asosiy maqsadi nima va tasvir siqish jarayonida qanday rol o'ynaydi?",
+    "1D va 2D DCT o'rtasidagi asosiy farq nimada?",
+    "DCT formulalaridagi α(k) normallash koeffitsientining vazifasi nima?",
+    "2D DCT koeffitsientlar matritsasida DC (C(0,0)) elementi nimani bildiradi?",
+    "Nima uchun yuqori chastotali DCT koeffitsientlari siqishda kesiladi yoki kvantlanadi?",
+    "JPEG standarti nima uchun aynan 8×8 bloklardan foydalanadi?",
+    "Kvantlash (quantization) nima va u siqish jarayoniga qanday ta'sir qiladi?",
+    "Siqish darajasi Q ning qiymatini o'zgartirish tasvir sifatiga qanday ta'sir ko'rsatadi?",
+    "DCT asosida siqishda yo'qotish (lossy) qaysi bosqichda yuzaga keladi?",
+    "MATLABda dct2() funksiyasi qanday maqsadda ishlatiladi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "Q": 10,
+        "keep_coeffs": 6
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "Q": 20,
+        "keep_coeffs": 8
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "Q": 30,
+        "keep_coeffs": 10
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "Q": 40,
+        "keep_coeffs": 12
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "Q": 50,
+        "keep_coeffs": 14
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "Q": 60,
+        "keep_coeffs": 16
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "Q": 70,
+        "keep_coeffs": 18
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "Q": 80,
+        "keep_coeffs": 20
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "Q": 90,
+        "keep_coeffs": 22
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "Q": 10,
+        "keep_coeffs": 24
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "Q": 20,
+        "keep_coeffs": 26
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "Q": 30,
+        "keep_coeffs": 4
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "Q": 40,
+        "keep_coeffs": 6
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "Q": 50,
+        "keep_coeffs": 8
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "Q": 60,
+        "keep_coeffs": 10
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "Q": 70,
+        "keep_coeffs": 12
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "Q": 80,
+        "keep_coeffs": 14
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "Q": 90,
+        "keep_coeffs": 16
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "Q": 10,
+        "keep_coeffs": 18
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "Q": 20,
+        "keep_coeffs": 20
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

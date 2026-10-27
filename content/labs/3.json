@@ -1,0 +1,158 @@
+{
+  "lab_number": 3,
+  "title": "Matlab dasturida davriy diskret signallarni o'rganish",
+  "objective": "Talabalarga davriy diskret signallar tushunchasini, ularning parametrlarini va Matlab muhitida dasturlash orqali vizual tahlil qilishni o'rgatish",
+  "theory": "3-amaliy mashg'ulot.\n\nMatlab dasturida davriy diskret signallarni o'rganish.\n\nIshning maqsadi: Talabalarga davriy diskret signallar tushunchasini, ularning parametrlarini va Matlab muhitida dasturlash orqali vizual tahlil qilishni o'rgatish\n\nDiskret signal – vaqt bo'yicha diskretlangan, ya'ni ma'lum oraliqlarda o'lchanadigan signal.\n\nDavriy signal – agar signalning qiymati ma'lum davrdan keyin takrorlansa, u holda signal davriy deyiladi:\n\nx[n]=x[n+N],N∈Z\n\nBu yerda N – signal davri.\n\nMisol:\n\nDiskret sinusoidal signal:\n\nx[n]=A⋅sin(ω0n+φ)\n\nBu yerda:\n\nA – amplituda,\n\nω0​ – burchak chastotasi,\n\nφ – faza siljishi.",
+  "tasks": "Topshiriq variantlari:\n\n1. Faza siljishini ko'rsatish\n\nFazasi turlicha bo'lgan ikkita signalni qurib taqqoslang.\n\n% Parametrlar\n\nA = 1;\n\nf = 2;\n\nFs = 50;\n\nt = 0:1/Fs:1;\n\n% Fazali signallar\n\nx1 = A * sin(2*pi*f*t);\n\nx2 = A * sin(2*pi*f*t + pi);\n\ny = x1+x2;\n\n% Grafik\n\nstem(t, x1, 'b', 'filled'); hold on;\n\nstem(t, x2, 'r', 'filled'); hold on;\n\nstem(t, y, 'g', 'filled');\n\ntitle('Fazasi turlicha bolgan sinusoidal signallar');\n\nxlabel('n');\n\nylabel('x[n]');\n\nlegend('phi = 0', 'phi = \\pi');\n\ngrid on;\n\n2. Variant 2:\n\nBir nechta davriy signallar kombinatsiyasi\n\nIkkita davriy signal yig'indisini hosil qiling:\n\nx[n]=sin(2πf1n)+0.5⋅cos(2πf2n)\n\n% Parametrlar\n\nFs = 500;\n\nt = 0:1/Fs:1;\n\nf1 = 2;\n\nf2 = 7;\n\nx = sin(2*pi*f1*t);\n\ny = 0.5*cos(2*pi*f2*t);\n\nz = x+y;\n\n% Grafik\n\nstem(t, x, 'b', 'filled'); hold on;\n\nstem(t, y, 'r', 'filled');\n\nstem(t, z, 'g', 'filled');\n\ntitle('Bir nechta davriy signallar yigindisi');\n\nxlabel('n');\n\nylabel('x[n]');\n\ngrid on;\n\nTopshiriq:\n\nFazasi turlicha bo'lgan ikkita signalni qurib taqqoslang.\n\nIkkita davriy signal yig'indisini hosil qiling:",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% Davriy diskret signallar va dastlabki faza\nA = 1;\nf = 2;\nFs = 50;\nt = 0:1/Fs:1;\n\nx1 = A * sin(2*pi*f*t);\nx2 = A * sin(2*pi*f*t + pi);\ny = x1 + x2;\n\nfigure;\nstem(t, x1, 'b'); hold on;\nstem(t, x2, 'r');\ntitle('Fazasi turlicha bo\\'lgan sinusoidal signallar');\nxlabel('n'); ylabel('x[n]');\nlegend('phi = 0', 'phi = \\pi'); grid on;",
+    "% Parametrlar\nA = 1;\nf = 2;\nFs = 50;\nt = 0:1/Fs:1;\n% Fazali signallar\nx1 = A * sin(2*pi*f*t);\nx2 = A * sin(2*pi*f*t + pi);\ny = x1+x2;\n% Grafik\nstem(t, x1, 'b', 'filled'); hold on;\nstem(t, x2, 'r', 'filled'); hold on;\nstem(t, y, 'g', 'filled');\ntitle('Fazasi turlicha bolgan sinusoidal signallar');\nxlabel('n');\nylabel('x[n]');\nlegend('phi = 0', 'phi = \\pi');\ngrid on;",
+    "% Parametrlar\nFs = 500;\nt = 0:1/Fs:1;\nf1 = 2;\nf2 = 7;\nx = sin(2*pi*f1*t);\ny = 0.5*cos(2*pi*f2*t);\nz = x+y;\n% Grafik\nstem(t, x, 'b', 'filled'); hold on;\nstem(t, y, 'r', 'filled');\nstem(t, z, 'g', 'filled');\ntitle('Bir nechta davriy signallar yigindisi');\nxlabel('n');\nylabel('x[n]');\ngrid on;"
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F": "10",
+        "phi": "π/8"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F": "15",
+        "phi": "π/6"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F": "20",
+        "phi": "π/4"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F": "25",
+        "phi": "π/2"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F": "30",
+        "phi": "π"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F": "40",
+        "phi": "π/8"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F": "50",
+        "phi": "π/6"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F": "10",
+        "phi": "π/4"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F": "15",
+        "phi": "π/2"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F": "20",
+        "phi": "π"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F": "30",
+        "phi": "π/8"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F": "40",
+        "phi": "π/6"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F": "50",
+        "phi": "π/4"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F": "10",
+        "phi": "π/2"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F": "15",
+        "phi": "π"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F": "20",
+        "phi": "π/8"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F": "25",
+        "phi": "π/6"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F": "30",
+        "phi": "π/4"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F": "40",
+        "phi": "π/2"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F": "50",
+        "phi": "π"
+      }
+    }
+  ],
+  "raw_tables_count": 2
+}

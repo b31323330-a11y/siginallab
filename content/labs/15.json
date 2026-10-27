@@ -1,0 +1,156 @@
+{
+  "lab_number": 15,
+  "title": "Tasvirdagi obektlarni tanib oluvchi dastur va algoritm ishlab chiqish",
+  "objective": "Talabalarga obektlarni tanib oluvchi dastur va algoritm ishlab chiqishni o'rgatish.",
+  "theory": "15-amaliy mashg'ulot.\n\nTasvirdagi obektlarni tanib oluvchi dastur va algoritm ishlab chiqish.\n\nIshning maqsadi: Talabalarga obektlarni tanib oluvchi dastur va algoritm ishlab chiqishni o'rgatish.\n\nObyektni aniqlash ko'plab sohalarda keng qo'llaniladi. Misol uchun, o'z-o'zini boshqarish texnologiyasida biz olingan video tasvirda transport vositalari, piyodalar, yo'llar va to'siqlarning joylashishini aniqlash orqali marshrutlarni rejalashtirishimiz mumkin. Robotlar ko'pincha o'rganish maqsadida ushbu turdagi vazifalarni bajaradilar. Va xavfsizlik sohasidagi tizimlar g'ayritabiiylikni aniqlashlari kerak, misol uchun, bosqinchilar yoki bombalar kabi nishonlar.\n\nObyektni aniqlashning umumiy tizimi\n\nOdatda obyektni aniqlash tizimi to'rtta komponentdan iborat:\n\nMintaqa taklifi – Tizim tomonidan keyinchalik qayta ishlanadigan qiziqish hududlarini (RoIs) yaratish uchun ishlatiladigan algoritm yoki DL modeli. Bular tarmoq ob'ektni o'z ichiga olishi mumkin deb hisoblaydigan mintaqalar; chiqish ko'p sonli cheklovchi qutilar bo'lib, ularning har biri obyektivlik balliga ega. Katta obyektivlik ballari bo'lgan qutilar keyinchalik qayta ishlash uchun tarmoq qatlamlari bo'ylab o'tkaziladi.\n\nXususiyatlarni ajratish va tarmoq prognozlari – Vizual xususiyatlar har bir cheklov qutisi uchun chiqariladi. Ular baholanadi va takliflarda vizual xususiyatlar (masalan, obyektlarni tasniflash komponenti) asosida qanday obyektlar mavjudligi aniqlanadi.\n\nMaksimal bo'lmagan bostirish (NMS) – Ushbu bosqichda model, ehtimol, bir xil obyekt uchun bir nechta chegaralovchi qutilarni topdi. NMS har bir obyekt uchun bir-birining ustiga chiqadigan qutilarni bitta chegaralovchi qutiga birlashtirib, bir xil misolni takroran aniqlashning oldini olishga yordam beradi.\n\nBaholash ko'rsatkichlari – aniqlikka o'xshash, obyektni aniqlash tizimlari o'zlarining aniqlash samaradorligini baholash uchun o'z ko'rsatkichlariga ega. Biz o'rtacha o'rtacha aniqlik (mAP), aniqlik-eslash egri chizig'i (PR egri chiziq) va birlashma ustidagi kesishma (IoU) kabi eng mashhur ko'rsatkichlarni ko'rib o'tamiz.\n\nMintaqa takliflari (Region proposals)\n\nUshbu bosqichda tizim rasmga qaraydi va keyingi tahlil uchun RoI(qayta ishlanadigan qiziqish hududlari)larni taklif qiladi. RoIlar tizim ob'ektni o'z ichiga olish ehtimoli yuqori deb hisoblaydigan mintaqalar bo'lib, ular obyektivlik reytingi deb ataladi (2-rasm). Obyektivlik ko'rsatkichlari yuqori bo'lgan hududlar keyingi bosqichlarga o'tkaziladi; past ballga ega bo'lgan hududlar tashlab ketiladi.",
+  "tasks": "",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% Tasvirdagi obyektlarni tanib olish (Binarizatsiya va Morfologiya)\nI = imread('cameraman.png');\nBW = imbinarize(rgb2gray(I));\nse = strel('disk', 4);\nBW_cleaned = imopen(BW, se);\n\nfigure;\nsubplot(1,2,1); imshow(BW); title('Binar tasvir');\nsubplot(1,2,2); imshow(BW_cleaned); title('Obyektlar ajratilgan binar tasvir');"
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "iou_threshold": 0.4,
+        "score_threshold": 0.5
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "iou_threshold": 0.5,
+        "score_threshold": 0.6
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "iou_threshold": 0.6,
+        "score_threshold": 0.7
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "iou_threshold": 0.7,
+        "score_threshold": 0.4
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "iou_threshold": 0.3,
+        "score_threshold": 0.5
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "iou_threshold": 0.4,
+        "score_threshold": 0.6
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "iou_threshold": 0.5,
+        "score_threshold": 0.7
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "iou_threshold": 0.6,
+        "score_threshold": 0.4
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "iou_threshold": 0.7,
+        "score_threshold": 0.5
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "iou_threshold": 0.3,
+        "score_threshold": 0.6
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "iou_threshold": 0.4,
+        "score_threshold": 0.7
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "iou_threshold": 0.5,
+        "score_threshold": 0.4
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "iou_threshold": 0.6,
+        "score_threshold": 0.5
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "iou_threshold": 0.7,
+        "score_threshold": 0.6
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "iou_threshold": 0.3,
+        "score_threshold": 0.7
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "iou_threshold": 0.4,
+        "score_threshold": 0.4
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "iou_threshold": 0.5,
+        "score_threshold": 0.5
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "iou_threshold": 0.6,
+        "score_threshold": 0.6
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "iou_threshold": 0.7,
+        "score_threshold": 0.7
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "iou_threshold": 0.3,
+        "score_threshold": 0.4
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

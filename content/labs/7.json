@@ -1,0 +1,145 @@
+{
+  "lab_number": 7,
+  "title": "Bir  o'lchovli signallar ustida filtirlashni amalga oshirish",
+  "objective": "Talabalarga bir o'lchovli (1D) signallarni filtrlash usullarini o'rgatish, ya'ni shovqinli signallardan foydali signalni ajratib olish, past chastotali (Low-Pass), yuqori chastotali (High-Pass) va o'tkazuvchi (Band-Pass) filtrlarning amaliy qo'llanishini tushuntirish.",
+  "theory": "7-amaliy mashg'ulot.\n\nBir  o'lchovli signallar ustida filtirlashni amalga oshirish.\n\nIshning maqsadi: Talabalarga bir o'lchovli (1D) signallarni filtrlash usullarini o'rgatish, ya'ni shovqinli signallardan foydali signalni ajratib olish, past chastotali (Low-Pass), yuqori chastotali (High-Pass) va o'tkazuvchi (Band-Pass) filtrlarning amaliy qo'llanishini tushuntirish.\n\nAsosiy filtr turlari:\n\nPast chastotali filtr (Low-Pass Filter) – Past chastotali komponentlarni o'tkazadi, yuqori chastotalarni susaytiradi. – Masalan, sekin o'zgaruvchi signalni saqlab, shovqinni olib tashlaydi.\n\n7.1-rasm. Past chastotali filtr.\n\nYuqori chastotali filtr (High-Pass Filter) – Yuqori chastotalarni o'tkazadi, past chastotalarni susaytiradi. – Masalan, tebranish yoki o'zgarishlarni aniqlashda ishlatiladi.\n\n7.2-rasm. Yuqori chastotali filtr.\n\nO'tkazuvchi (Band-Pass) va to'xtatuvchi (Band-Stop) filtrlari – Ma'lum chastota diapazonini o'tkazadi yoki to'sadi.\n\n7.3-rasm. O'tkazuvchi (Band-Pass) filtr.\n\n7.4-rasm. To'xtatuvchi (Band-Stop) filtr.\n\nMatlabda filtrlash funksiyalari:\n\nfilter(b, a, x) – chiziqli filtr (IIR yoki FIR).\n\nlowpass(x, fc, fs) – past chastotali filtr.\n\nhighpass(x, fc, fs) – yuqori chastotali filtr.\n\nbandpass(x, [f1 f2], fs) – diapazonli filtr.\n\nmedfilt1(x, N) – median filtrlash (noaniq shovqinlar uchun samarali).",
+  "tasks": "Topshiriq variantlari:\n\n1. Variant 1:\n\nMATLAB ga audiosignalni import qilish, unga shovqin qo'shish va filtrlash:\n\n[y, fs] =audioread (\"D:\\\\rythm1.mp3\"); %audio faylni import qilish\n\ny=y(:,1); %stereoni monoga o'tkazish\n\nf=5000; %shovqin chastotasi\n\nt = (0:length(y)-1)/fs; %vaqt vektori\n\nx=0.1*(cos(2*pi*f*t)); %shovqin\n\nz=y+x'; %shovqinli signal\n\nsubplot (4,1,1)\n\nplot (t,y);\n\nxlabel ('Vaqt \"Sekund\"');\n\nylabel ('Amplituda \"Volt\"');\n\ntitle ('Signal');\n\ngrid on;\n\nsubplot (4,1,2)\n\nplot (t,x);\n\nxlabel ('Vaqt \"Sekund\"');\n\nylabel ('Amplituda \"Volt\"');\n\ntitle ('Shovqin');\n\ngrid on;\n\nsubplot (4,1,3)\n\nplot (t,z);\n\nxlabel ('Vaqt \"Sekund\"');\n\nylabel ('Amplituda \"Volt\"');\n\ntitle ('Shovqinli signal');\n\ngrid on;\n\nsubplot (4,1,4)\n\nplot (t,h);\n\nxlabel ('Vaqt \"Sekund\"');\n\nylabel ('Amplituda \"Volt\"');\n\ntitle ('Filtrlangan signal');\n\ngrid on;\n\nwo = f/(fs/2);             % markaziy chastota (normalizatsiya)\n\nbw = wo/35;                % teshik kengligi\n\n[b,a] = iirnotch(wo, bw);  % notch filtr koeffitsientlari\n\nh = filter(b, a, z);\n\nsound (z, fs); %Audioni eshittirish\n\naudiowrite ('D:\\\\natija.m4a',h,fs)\n\nTopshiriq:\n\nMATLAB ga audiosignalni import qiling, variant asosida unga shovqin qo'shing va filtrlang.",
+  "report_requirements": "Topshiriq varianti.\n\nOlingan grafiklar tasvirlari.\n\nNatijalar (skrinshot ko'rinishida)",
+  "conclusion": "",
+  "code_snippets": [
+    "% 1D Raqamli filtrlar (Butterworth past chastotali filtr)\nFs = 1000;\nt = 0:1/Fs:1;\nf_low = 10;\nf_high = 120;\nx = sin(2*pi*f_low*t) + 0.6*sin(2*pi*f_high*t);\n\n[b, a] = butter(4, 30 / (Fs/2), 'low');\ny = filter(b, a, x);\n\nfigure;\nsubplot(2,1,1); plot(t, x, 'r'); title('Shovqinli signal (10 Hz + 120 Hz)'); grid on;\nsubplot(2,1,2); plot(t, y, 'b'); title('Filtrlangan toza signal (10 Hz)'); grid on;",
+    "filter(b, a, x) – chiziqli filtr (IIR yoki FIR).",
+    "t = (0:length(y)-1)/fs; %vaqt vektori",
+    "h = filter(b, a, z);"
+  ],
+  "control_questions_raw": [
+    "Filtrlash nima va uning maqsadi nimadan iborat?",
+    "Past chastotali va yuqori chastotali filtrlar o'rtasidagi farq nimada?",
+    "Median filtr qanday holatlarda ishlatiladi?",
+    "Matlabda lowpass() va highpass() funksiyalarining parametrlari nimani bildiradi?",
+    "Filtrlash natijasini grafik asosida qanday tahlil qilish mumkin?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F": "1000"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F": "1500"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F": "2000"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F": "2500"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F": "3000"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F": "1000"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F": "1500"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F": "2000"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F": "2500"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F": "3000"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F": "1000"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F": "1500"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F": "2000"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F": "2500"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F": "3000"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F": "1000"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F": "1500"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F": "2000"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F": "2500"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F": "3000"
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

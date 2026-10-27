@@ -1,0 +1,204 @@
+{
+  "lab_number": 10,
+  "title": "Bir va ikki o'lchovli signallarda spektral o'zgartirish algoritmlarini qo'llash",
+  "objective": "Talabalarga 1D va 2D signallarda spektral tahlil va spektral transformatsiyalarni qo'llashni o'rgatish.",
+  "theory": "10-amaliy mashg'ulot.\n\nBir va ikki o'lchovli signallarda spektral o'zgartirish algoritmlarini qo'llash.\n\nIshning maqsadi: Talabalarga 1D va 2D signallarda spektral tahlil va spektral transformatsiyalarni qo'llashni o'rgatish.\n\nShu sababli DFTni juda tez hisoblashga mo'ljallangan FFT (Fast Fourier Transform) algoritmi ishlab chiqilgan. FFT DFTni aniq natijalar bilan, ammo N·log₂N murakkabligida hisoblaydi. Natijada katta uzunlikdagi signallarni ham juda tez tahlil qilish imkoniyati paydo bo'ladi. FFTning mohiyati signalni juft va toq indekslarga ajratib, ularning DFTlarini alohida hisoblash va keyin \"kapalak\" (butterfly) strukturalari orqali birlashtirishga asoslanadi. Shu texnika hisob-kitoblarni keskin kamaytiradi.\n\nFFT natijasi kompleks sonlar ketma-ketligini beradi. Bu kompleks qiymatlar ikki muhim tarkibiy qismni saqlaydi: amplituda sp ektri va faza spektri. Amplituda spektri signal tarkibidagi chastotalarning qanchalik kuchli ekanini ko'rsatadi, faza esa chastotalarning vaqt bo'yicha qaysi bosqichda turganini bildiradi. Signalning to'liq tiklanishi aynan amplituda va faza ma'lumotlari orqali amalga oshiriladi. Shu bois tasvir va audio signallar bilan ishlashda fazaning ahamiyati juda katta.\n\nFFT yordamida turli turdagi spektral tahlillar bajariladi: asosiy garmonikalarni aniqlash, shovqinni topish, modulyatsiya komponentlarini ko'rish, signal sifatini baholash va h.k. Bundan tashqari, FFT asosida spektral filtrlash ham keng qo'llanadi. Buning mohiyati shundaki, avval signal chastota sohasiga o'tkaziladi, so'ngra kerakli chastotalar qoldirilib, keraksizlari nolga tenglanadi. Oxirida esa ifft orqali signal yana vaqt sohasiga qaytariladi. Shu tarzda past chastotali yoki yuqori chastotali filtrlar, polosali filtrlar va boshqa turdagi filtrlar osongina amalga oshiriladi.\n\nFFT hozirgi zamonaviy telekommunikatsiya, raqamli audio, tibbiy diagnostika, tasvirlarni qayta ishlash, ma'lumotlarni siqish, modulyatsiya texnologiyalari, radar va sonar tizimlari, nazorat va monitoring qurilmalari kabi ko'plab sohalarning asosiy komponentiga aylangan. Uning tezkorligi, aniqligi va matematik qulayligi uni raqamli signalni qayta ishlashning ajralmas qismi qiladi.",
+  "tasks": "Topshiriq:\n\nMATLAB da Fure transformatsiyasi asosida spektral tahlilni amalga oshirish:\n\nclc; clear; close all;\n\n%% 1) Signal yaratish\n\nFs = 1000;                   % Diskretizatsiya chastotasi (Hz)\n\nT = 1/Fs;                    % Diskret vaqt qadami\n\nt = 0:T:1-T;                 % 1 soniyalik signal\n\nN = length(t);\n\n% Signal tarkibi (50 Hz va 150 Hz garmonikalar)\n\nx = sin(2*pi*50*t) + 0.7*sin(2*pi*150*t);\n\n%% 2) FFT hisoblash\n\nX = fft(x);                  % Kompleks spektr\n\n%% 3) Amplituda spektri\n\nA = abs(X)/N*2;              % Amplituda (normallashgan)\n\nf = (0:N-1)*(Fs/N);          % Chastotalar o'qi\n\n%% 4) Faza spektri\n\nphi = angle(X);              % Har bir chastota fazasi (radian)\n\n%% 5) Spektral filtrlash — past chastotali filtr (Low-Pass)\n\ncutoff = 100;                % Kesish chastotasi (Hz)\n\nH = (f <= cutoff);           % Filtr maskasi (100 Hz gacha o'tkazadi)\n\nX_filtered = X .* H;         % Spektrda filtr qo'llash\n\n%% 6) Vaqt sohasiga qaytarish\n\nx_filtered = ifft(X_filtered);\n\n%% 7) Natijalarni chiqarish\n\nfigure;\n\nsubplot(3,1,1)\n\nplot(t, x)\n\ntitle('Asl signal (vaqt sohasida)')\n\nxlabel('t (s)'); ylabel('x(t)'); grid on;\n\nsubplot(3,1,2)\n\nplot(f, A)\n\nxlim([0 300])\n\ntitle('Amplituda spektri')\n\nxlabel('Chastota (Hz)'); ylabel('|X(f)|'); grid on;\n\nsubplot(3,1,3)\n\nplot(f, phi)\n\nxlim([0 300])\n\ntitle('Faza spektri')\n\nxlabel('Chastota (Hz)'); ylabel('\\phi(f)'); grid on;\n\nfigure;\n\nsubplot(2,1,1)\n\nplot(f, abs(X))\n\nxlim([0 300])\n\ntitle('Filtrlashdan oldingi spektr'); grid on;\n\nsubplot(2,1,2)\n\nplot(f, abs(X_filtered))\n\nxlim([0 300])\n\ntitle('Filtrlashdan keyingi spektr'); grid on;\n\nfigure;\n\nplot(t, x_filtered)\n\ntitle('Filtrlangan signal (vaqt sohasida)')\n\nxlabel('t (s)'); ylabel('x\\_filtered(t)'); grid on;\n\nMATLAB da berilgan variant asosida signal hosil qiling, unga shovqin qo'shing, Fure transformatsiyasi asosida spektral tahlilni amalga oshiring va filtrlang.",
+  "report_requirements": "Natijalar (skrinshot ko'rinishida).",
+  "conclusion": "",
+  "code_snippets": [
+    "% Furye Transformatsiyasi (FFT) va Spektral tahlil\nFs = 1000;\nt = 0:1/Fs:1-1/Fs;\nx = sin(2*pi*50*t) + 0.7*sin(2*pi*150*t);\n\nN = length(x);\nX = fft(x);\nA = abs(X)/N * 2;\nf = (0:N/2) * (Fs/N);\n\nfigure;\nsubplot(2,1,1); plot(t(1:200), x(1:200)); title('Vaqt domeni (50 Hz + 150 Hz)'); grid on;\nsubplot(2,1,2); plot(f, A(1:N/2+1)); title('Amplituda spektri (FFT)'); xlim([0 300]); grid on;",
+    "%% 1) Signal yaratish\nFs = 1000;                   % Diskretizatsiya chastotasi (Hz)",
+    "t = 0:T:1-T;                 % 1 soniyalik signal\nN = length(t);\n% Signal tarkibi (50 Hz va 150 Hz garmonikalar)\nx = sin(2*pi*50*t) + 0.7*sin(2*pi*150*t);\n%% 2) FFT hisoblash\nX = fft(x);                  % Kompleks spektr\n%% 3) Amplituda spektri\nA = abs(X)/N*2;              % Amplituda (normallashgan)\nf = (0:N-1)*(Fs/N);          % Chastotalar o'qi\n%% 4) Faza spektri\nphi = angle(X);              % Har bir chastota fazasi (radian)\n%% 5) Spektral filtrlash — past chastotali filtr (Low-Pass)\ncutoff = 100;                % Kesish chastotasi (Hz)\nH = (f <= cutoff);           % Filtr maskasi (100 Hz gacha o'tkazadi)",
+    "%% 6) Vaqt sohasiga qaytarish\nx_filtered = ifft(X_filtered);\n%% 7) Natijalarni chiqarish\nfigure;\nsubplot(3,1,1)\nplot(t, x)\ntitle('Asl signal (vaqt sohasida)')\nxlabel('t (s)'); ylabel('x(t)'); grid on;\nsubplot(3,1,2)\nplot(f, A)\nxlim([0 300])\ntitle('Amplituda spektri')\nxlabel('Chastota (Hz)'); ylabel('|X(f)|'); grid on;\nsubplot(3,1,3)\nplot(f, phi)\nxlim([0 300])\ntitle('Faza spektri')\nxlabel('Chastota (Hz)'); ylabel('\\phi(f)'); grid on;\nfigure;\nsubplot(2,1,1)\nplot(f, abs(X))\nxlim([0 300])\ntitle('Filtrlashdan oldingi spektr'); grid on;\nsubplot(2,1,2)\nplot(f, abs(X_filtered))\nxlim([0 300])\ntitle('Filtrlashdan keyingi spektr'); grid on;\nfigure;\nplot(t, x_filtered)\ntitle('Filtrlangan signal (vaqt sohasida)')\nxlabel('t (s)'); ylabel('x\\_filtered(t)'); grid on;"
+  ],
+  "control_questions_raw": [
+    "STFTda window uzunligi oshsa spektrogramning vaqt va chastota rezolyutsiyalariga qanday taʼsir qiladi?",
+    "Wavelet transformning nima uchun denoising uchun yaxshi ekanini tushuntiring.",
+    "Homomorphic filtering nima uchun yoritish muammolarini hal etishda ishlatiladi?",
+    "2D DCT ning JPEG bilan aloqasi va qanday qilib chastota komponentlarni kesish rasm sifati va fayl hajmiga taʼsir qiladi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F1": "100",
+        "F2": "150",
+        "A1": "1",
+        "A2": "0.5"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F1": "150",
+        "F2": "250",
+        "A1": "1.5",
+        "A2": "1"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F1": "200",
+        "F2": "350",
+        "A1": "2",
+        "A2": "1.5"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F1": "25",
+        "F2": "145",
+        "A1": "1",
+        "A2": "2"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F1": "30",
+        "F2": "60",
+        "A1": "1.5",
+        "A2": "0.5"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F1": "40",
+        "F2": "150",
+        "A1": "2",
+        "A2": "1"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F1": "50",
+        "F2": "250",
+        "A1": "1",
+        "A2": "1.5"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F1": "100",
+        "F2": "350",
+        "A1": "1.5",
+        "A2": "2"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F1": "150",
+        "F2": "250",
+        "A1": "2",
+        "A2": "0.5"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F1": "20",
+        "F2": "60",
+        "A1": "1",
+        "A2": "1"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F1": "30",
+        "F2": "150",
+        "A1": "1.5",
+        "A2": "1.5"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F1": "40",
+        "F2": "250",
+        "A1": "2",
+        "A2": "2"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F1": "50",
+        "F2": "350",
+        "A1": "1",
+        "A2": "0.5"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F1": "100",
+        "F2": "450",
+        "A1": "1.5",
+        "A2": "1"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F1": "150",
+        "F2": "200",
+        "A1": "2",
+        "A2": "1.5"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F1": "20",
+        "F2": "150",
+        "A1": "1",
+        "A2": "2"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F1": "25",
+        "F2": "125",
+        "A1": "1.5",
+        "A2": "0.5"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F1": "30",
+        "F2": "135",
+        "A1": "2",
+        "A2": "1"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F1": "40",
+        "F2": "145",
+        "A1": "1",
+        "A2": "1.5"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F1": "50",
+        "F2": "160",
+        "A1": "1.5",
+        "A2": "2"
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

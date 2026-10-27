@@ -1,0 +1,165 @@
+{
+  "lab_number": 16,
+  "title": "Signal va tasvirlarni qayta ishlashda interpolatsiya usullarini qo'llash",
+  "objective": "Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida signal va tasvirlarni qayta ishlashda interpolatsiya usullarini o'rganish, diskret signal yoki tasvir ma'lumotlari orasidagi yetishmayotgan qiymatlarni aniqlash va tiklash hamda turli interpolatsiya usullarining natijalarini taqqoslashdan iborat. Amaliy mashg'ulot davomida talabalar nearest, linear, spline va pchip interpolatsiya usullaridan foydalanishni, ularning signal va tasvir sifatiga ta'sirini baholashni o'rganadilar.",
+  "theory": "Amaliy mashg'ulot\n\nMavzu: Signal va tasvirlarni qayta ishlashda interpolatsiya\n\nusullarini qo'llash\n\nIshning maqsadi: Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida signal va tasvirlarni qayta ishlashda interpolatsiya usullarini o'rganish, diskret signal yoki tasvir ma'lumotlari orasidagi yetishmayotgan qiymatlarni aniqlash va tiklash hamda turli interpolatsiya usullarining natijalarini taqqoslashdan iborat.\n\nAmaliy mashg'ulot davomida talabalar nearest, linear, spline va pchip interpolatsiya usullaridan foydalanishni, ularning signal va tasvir sifatiga ta'sirini baholashni o'rganadilar.\n\nInterpolatsiya — berilgan diskret nuqtalar orasidagi noma'lum qiymatlarni mavjud ma'lumotlar asosida hisoblash usulidir. Masalan, signalning ayrim nuqtalarida qiymatlar mavjud bo'lib, ular orasidagi qiymatlar noma'lum bo'lsa, interpolatsiya yordamida ushbu qiymatlarni taxminiy aniqlash mumkin.\n\nSignal quyidagi ko'rinishda berilgan bo'lsin:\n\nInterpolatsiya natijasida signalning yangi nuqtalari hosil qilinadi:\n\nBu usul signalni zichlashtirish, yo'qolgan ma'lumotlarni tiklash va tasvir o'lchamini o'zgartirishda keng qo'llaniladi.\n\n1.2. Interpolatsiyaning asosiy usullari\n\nMATLAB dasturida quyidagi interpolatsiya usullaridan foydalanish mumkin:\n\n1. Nearest — eng yaqin qo'shni usuli, Noma'lum nuqta uchun unga eng yaqin mavjud qiymat olinadi. Usul sodda va tez ishlaydi, biroq signal yoki tasvirda keskin o'zgarishlar paydo bo'lishi mumkin.\n\n2. Linear — chiziqli interpolatsiya, Ikki qo'shni nuqta orasidagi qiymat to'g'ri chiziq yordamida aniqlanadi.\n\ny=y1+x−x1x2−x1(y2−y1)y=y_1+\\frac{x-x_1}{x_2-x_1}(y_2-y_1)\n\nUshbu usul sodda va ko'plab amaliy masalalarda qo'llaniladi.\n\n3. Spline — kubik splayn interpolatsiyasi\n\nSignal nuqtalarini silliq kubik funksiyalar yordamida bog'laydi. Natijada signalning silliqroq ko'rinishi hosil bo'ladi.\n\n4. PCHIP — Piecewise Cubic Hermite Interpolating Polynomial\n\nPCHIP usuli kubik polinomlardan foydalanadi va signal shaklini yaxshi saqlaydi. Ayniqsa, signalda maksimum va minimum qiymatlar mavjud bo'lgan holatlarda foydalidir.\n\n2. Amaliy qism\n\n2.1. MATLAB dasturida signal yaratish\n\nAvvalo sinusoidal signal hosil qilamiz.\n\nclc;\n\nclear;\n\nclose all;\n\nt = 0:0.1:10;\n\nx = sin(t);\n\nfigure;\n\nplot(t,x,'o-');\n\ngrid on;\n\nxlabel('Vaqt');\n\nylabel('Amplituda');\n\ntitle('Boshlang'ich diskret signal');\n\nNatijada diskret sinusoidal signal hosil bo'ladi.\n\n2.2. Signalni interpolatsiya qilish\n\nEndi signalning yangi nuqtalarini hosil qilamiz.\n\nt_new = 0:0.01:10;\n\ny_linear = interp1(t,x,t_new,'linear');\n\ny_nearest = interp1(t,x,t_new,'nearest');\n\ny_spline = interp1(t,x,t_new,'spline');\n\ny_pchip = interp1(t,x,t_new,'pchip');\n\nBu yerda:\n\nt — boshlang'ich vaqt nuqtalari;\n\nx — boshlang'ich signal;\n\nt_new — yangi, zichroq vaqt nuqtalari;\n\nlinear — chiziqli interpolatsiya;\n\nnearest — eng yaqin qo'shni usuli;\n\nspline — splayn interpolatsiyasi;\n\npchip — PCHIP interpolatsiyasi.\n\n2.3. Interpolatsiya natijalarini grafikda ko'rsatish\n\nfigure;\n\nsubplot(2,2,1);\n\nplot(t,x,'o',t_new,y_nearest,'-');\n\ngrid on;\n\ntitle('Nearest interpolatsiya');\n\nxlabel('Vaqt');\n\nylabel('Amplituda');\n\nsubplot(2,2,2);\n\nplot(t,x,'o',t_new,y_linear,'-');\n\ngrid on;\n\ntitle('Linear interpolatsiya');\n\nxlabel('Vaqt');\n\nylabel('Amplituda');\n\nsubplot(2,2,3);\n\nplot(t,x,'o',t_new,y_spline,'-');\n\ngrid on;\n\ntitle('Spline interpolatsiya');\n\nxlabel('Vaqt');\n\nylabel('Amplituda');\n\nsubplot(2,2,4);\n\nplot(t,x,'o',t_new,y_pchip,'-');\n\ngrid on;\n\ntitle('PCHIP interpolatsiya');\n\nxlabel('Vaqt');\n\nylabel('Amplituda');\n\nUshbu grafik orqali to'rtta interpolatsiya usulining natijalarini bir-biri bilan taqqoslash mumkin.\n\n3. Tasvirga interpolatsiya qo'llash\n\nInterpolatsiya nafaqat signallarda, balki raqamli tasvirlarni qayta ishlashda ham ishlatiladi.\n\nMasalan, kichik o'lchamdagi tasvirni kattalashtirish mumkin.\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('cameraman.tif');\n\nI_nearest = imresize(I, 2, 'nearest');\n\nI_linear = imresize(I, 2, 'bilinear');\n\nI_cubic = imresize(I, 2, 'bicubic');\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I);\n\ntitle('Boshlang'ich tasvir');\n\nsubplot(2,2,2);\n\nimshow(I_nearest);\n\ntitle('Nearest');\n\nsubplot(2,2,3);\n\nimshow(I_linear);\n\ntitle('Bilinear');\n\nsubplot(2,2,4);\n\nimshow(I_cubic);\n\ntitle('Bicubic');\n\nBu tajribada tasvir hajmi 2 marta kattalashtiriladi.\n\nTasvir interpolatsiyasi usullari:\n\nNearest — eng yaqin piksel qiymatini oladi.\n\nBilinear — to'rtta qo'shni piksel asosida yangi qiymatni hisoblaydi.\n\nBicubic — ko'proq qo'shni piksellardan foydalanib, tasvirni silliqroq hosil qiladi.\n\nOdatda Bicubic usulida tasvir sifati Nearest usuliga qaraganda silliqroq bo'ladi.",
+  "tasks": "4. Talabaning mustaqil bajaradigan topshiriqlari\n\n1-topshiriq. MATLAB dasturida quyidagi signalni hosil qiling:\n\nSignalni nearest, linear, spline va pchip usullari yordamida interpolatsiya qiling.\n\n2-topshiriq. Har bir interpolatsiya usulining grafik ko'rinishini hosil qiling va natijalarni taqqoslang.\n\n3-topshiriq. cameraman.tif tasvirini MATLAB dasturiga yuklang va tasvirni 2 hamda 4 marta kattalashtiring.\n\n4-topshiriq. nearest, bilinear va bicubic usullaridan foydalanib, olingan tasvirlarni taqqoslang.\n\n5-topshiriq. Qaysi interpolatsiya usuli signal va tasvir sifatini yaxshiroq saqlashini aniqlang va xulosa yozing.",
+  "report_requirements": "",
+  "conclusion": "Ushbu amaliy mashg'ulotda signal va raqamli tasvirlarni qayta ishlashda interpolatsiya usullari o'rganildi. MATLAB dasturida Nearest, Linear, Spline va PCHIP usullari yordamida diskret signal qiymatlari orasidagi yangi qiymatlar hisoblandi. Shuningdek, tasvirlarni kattalashtirishda Nearest, Bilinear va Bicubic interpolatsiya usullaridan foydalanish ko'rib chiqildi. Olingan natijalarni grafik va tasvirlar orqali taqqoslash asosida har bir usulning afzallik va kamchiliklarini aniqlash mumkin.",
+  "code_snippets": [
+    "% Signal va tasvirlarda interpolatsiya (Linear)\nx_orig = [0, 1, 0, -1, 0, 1, 0];\nn_orig = 0:length(x_orig)-1;\nn_interp = 0:0.2:length(x_orig)-1;\n\nx_interp = interp1(n_orig, x_orig, n_interp, 'linear');\n\nfigure;\nplot(n_orig, x_orig, 'ro'); hold on;\nplot(n_interp, x_interp, 'b--');\nlegend('Asl nuqtalar', 'Chiziqli interpolatsiya');\ntitle('Signal interpolatsiyasi'); grid on;",
+    "t = 0:0.1:10;\nx = sin(t);\nfigure;\nplot(t,x,'o-');\ngrid on;\nxlabel('Vaqt');\nylabel('Amplituda');\ntitle('Boshlang'ich diskret signal');",
+    "figure;\nsubplot(2,2,1);\nplot(t,x,'o',t_new,y_nearest,'-');\ngrid on;\ntitle('Nearest interpolatsiya');\nxlabel('Vaqt');\nylabel('Amplituda');\nsubplot(2,2,2);\nplot(t,x,'o',t_new,y_linear,'-');\ngrid on;\ntitle('Linear interpolatsiya');\nxlabel('Vaqt');\nylabel('Amplituda');\nsubplot(2,2,3);\nplot(t,x,'o',t_new,y_spline,'-');\ngrid on;\ntitle('Spline interpolatsiya');\nxlabel('Vaqt');\nylabel('Amplituda');\nsubplot(2,2,4);\nplot(t,x,'o',t_new,y_pchip,'-');\ngrid on;\ntitle('PCHIP interpolatsiya');\nxlabel('Vaqt');\nylabel('Amplituda');",
+    "I = imread('cameraman.tif');\nI_nearest = imresize(I, 2, 'nearest');\nI_linear = imresize(I, 2, 'bilinear');\nI_cubic = imresize(I, 2, 'bicubic');\nfigure;\nsubplot(2,2,1);\nimshow(I);\ntitle('Boshlang'ich tasvir');\nsubplot(2,2,2);\nimshow(I_nearest);\ntitle('Nearest');\nsubplot(2,2,3);\nimshow(I_linear);\ntitle('Bilinear');\nsubplot(2,2,4);\nimshow(I_cubic);\ntitle('Bicubic');"
+  ],
+  "control_questions_raw": [
+    "Interpolatsiya nima?",
+    "Interpolatsiya signalni qayta ishlashda nima uchun ishlatiladi?",
+    "MATLAB dasturida interp1() funksiyasining vazifasi nima?",
+    "nearest interpolatsiya usuli qanday ishlaydi?",
+    "linear interpolatsiya qanday amalga oshiriladi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 3
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 4
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 5
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 2
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 3
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 4
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 5
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 2
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 3
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 4
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 5
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 2
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 3
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 4
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 5
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 2
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 3
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 4
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "upscale_factor": 2,
+        "sample_rate_sparse": 5
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "upscale_factor": 4,
+        "sample_rate_sparse": 2
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

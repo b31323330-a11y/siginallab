@@ -1,0 +1,139 @@
+{
+  "lab_number": 4,
+  "title": "Matlab dasturida Kotelnikov teoremasini o'rganish",
+  "objective": "Kotelnikov teoremasini o'rganish va Matlab muhitida dasturlash orqali vizual tahlil qilishni o'rgatish",
+  "theory": "4-amaliy mashg'ulot.\n\nMatlab dasturida Kotelnikov teoremasini o'rganish.\n\nIshning maqsadi: Kotelnikov teoremasini o'rganish va Matlab muhitida dasturlash orqali vizual tahlil qilishni o'rgatish\n\nKotelnikov teoremasi, shuningdek Nyquist-Shannon sampling theorem nomi bilan ham tanilgan, signalni raqamli shaklga o'tkazishda eng muhim asosiy qonunlardan biridir.\n\nAgar bir signal cheklangan maksimal chastotaga ega bo'lsa (ya'ni signalning chastota spektri maksimal fmax ​ dan oshmasa), u holda signalni to'liq tiklash uchun uni kamida 2fmax​ chastotada (yoki undan yuqori) namuna olish kerak.\n\nMatematik shaklda:\n\nfs ≥ 2fmax\n\nbu yerda\n\nfs — namuna olish chastotasi (sampling frequency),\n\nfmax — signalning maksimal chastotasi (bandwidth).\n\nTeoremaning mazmuni:\n\nSignal cheklangan chastotali bo'lishi kerak. Signalning chastota spektri fmax​ dan oshmasligi shart. Bunday signalni band-cheklangan signal deb atashadi.\n\nMinimal namuna olish chastotasi. Agar fs < 2fmax ​ bo'lsa, signalni raqamli ko'rinishda to'liq tiklash imkonsiz bo'ladi — aliasing hodisasi yuz beradi. Aliasing natijasida signal noto'g'ri talqin qilinadi.\n\nNamuna olish va tiklash. Agar namuna olish chastotasi 2fmax​ yoki undan yuqori bo'lsa, signal to'liq tiklanishi mumkin. Tiklash uchun odatda sinc interpolatsiya (yoki ideal filtr) ishlatiladi.\n\nAliasing nima?\n\nAgar namuna olish chastotasi yetarli darajada yuqori bo'lmasa, yuqori chastotali komponentlar past chastotalarga \"ko'chib\" ketadi va signal buziladi. Bu hodisa aliasing deb ataladi.\n\nMisol uchun, 5 Hz chastotali signalni 6 Hz namuna olishda uning haqiqiy shakli noto'g'ri talqin qilinadi, chunki 6<2×5=10\n\nTeoremaning amaliy ahamiyati\n\nRaqamli audio, video, telekommunikatsiya, va boshqa raqamli signal qayta ishlash sohalarida signalni to'g'ri raqamlashtirish uchun bu qonun asos bo'ladi.\n\nMasalan, CD audio 44.1 kHz da namuna oladi, chunki inson qulog'i uchun yuqori eshitiladigan chastota taxminan 20 kHz (44.1 kHz > 2 × 20 kHz).",
+  "tasks": "Topshiriq:\n\n1. Signalni yaratish\n\nOddiy sinusoidal signalni ko'rib chiqamiz:\n\nx(t)=sin(2πf0t)\n\nbu yerda f0 — signal chastotasi.\n\n2. Signalni n amuna olish\n\nSignalni turli namuna olish chastotalarida olish:\n\nfs < 2f0 — namunalar soni kam, aliasing paydo bo'ladi.\n\nfs = 2f0​ — minimal namunalar soni, teoremaga mos.\n\nfs > 2f0 ​ — yaxshi namuna olish, signalni to'liq tiklash mumkin.\n\n3. MATLAB kod namunasi\n\n% Signal parametrlari\n\nf0 = 10;                % Signal chastotasi (Hz)\n\nT = 1;                 % Signal davomiyligi (s)\n\nt = 0:0.0001:T;        % Uzluksiz vaqt vektori\n\n% Uzluksiz signal\n\nx = sin(2*pi*f0*t);\n\n% Namuna olish chastotalari\n\nfs1 = 30;   % fs1 > 2*f0, yaxshi namuna olish\n\nfs2 = 20;  % fs2 = 2*f0, minimal namuna olish\n\nfs3 = 15;   % fs3 < 2*f0, aliasing yuz beradi\n\n% Namuna olish uchun vaqt vektorlar\n\nts1 = 0:1/fs1:T;\n\nts2 = 0:1/fs2:T;\n\nts3 = 0:1/fs3:T;\n\n% Namuna olingan signal\n\nx1 = sin(2*pi*f0*ts1);\n\nx2 = sin(2*pi*f0*ts2);\n\nx3 = sin(2*pi*f0*ts3);\n\n% Grafiklarga chizish\n\nfigure;\n\nsubplot(3,1,1);\n\nplot(t,x,'b',ts1,x1,'ro-');\n\ntitle(['Namuna olish: f_s = ', num2str(fs1), ' Hz > 2*f_0']);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Uzluksiz signal','Namuna olingan signal');\n\nsubplot(3,1,2);\n\nplot(t,x,'b',ts2,x2,'ro-');\n\ntitle(['Namuna olish: f_s = ', num2str(fs2), ' Hz = 2*f_0']);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Uzluksiz signal','Namuna olingan signal');\n\nsubplot(3,1,3);\n\nplot(t,x,'b',ts3,x3,'ro-');\n\ntitle(['Namuna olish: f_s = ', num2str(fs3), ' Hz < 2*f_0 (Aliasing)']);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\nlegend('Uzluksiz signal','Namuna olingan signal');\n\nTopshiriq:\n\nFazasi turlicha bo'lgan ikkita signalni qurib taqqoslang.",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% Kotelnikov (Nyquist) teoremasi va Aliasing effekti\nf0 = 10;\nT = 1;\nt = 0:0.001:T;\nx = sin(2*pi*f0*t);\n\nfs1 = 50;  % fs > 2*f0 (To'g'ri tiklanadi)\nfs2 = 20;  % fs = 2*f0 (Nyquist chegarasi)\nfs3 = 12;  % fs < 2*f0 (Aliasing buzilishi)\n\nts1 = 0:1/fs1:T; x1 = sin(2*pi*f0*ts1);\nts2 = 0:1/fs2:T; x2 = sin(2*pi*f0*ts2);\nts3 = 0:1/fs3:T; x3 = sin(2*pi*f0*ts3);\n\nfigure;\nsubplot(3,1,1);\nplot(t, x, 'b'); hold on; stem(ts1, x1, 'r');\ntitle('fs = 50 Hz > 2*f0 (Yetarli diskretlash)'); grid on;\n\nsubplot(3,1,2);\nplot(t, x, 'b'); hold on; stem(ts2, x2, 'r');\ntitle('fs = 20 Hz = 2*f0 (Nyquist chegarasi)'); grid on;\n\nsubplot(3,1,3);\nplot(t, x, 'b'); hold on; stem(ts3, x3, 'r');\ntitle('fs = 12 Hz < 2*f0 (Aliasing yolg\\'on to\\'lqin)'); grid on;",
+    "fs = 2f0​ — minimal namunalar soni, teoremaga mos.",
+    "% Signal parametrlari\nf0 = 10;                % Signal chastotasi (Hz)\nT = 1;                 % Signal davomiyligi (s)\nt = 0:0.0001:T;        % Uzluksiz vaqt vektori\n% Uzluksiz signal\nx = sin(2*pi*f0*t);\n% Namuna olish chastotalari",
+    "% Namuna olish uchun vaqt vektorlar\nts1 = 0:1/fs1:T;\nts2 = 0:1/fs2:T;\nts3 = 0:1/fs3:T;\n% Namuna olingan signal\nx1 = sin(2*pi*f0*ts1);\nx2 = sin(2*pi*f0*ts2);\nx3 = sin(2*pi*f0*ts3);\n% Grafiklarga chizish\nfigure;\nsubplot(3,1,1);\nplot(t,x,'b',ts1,x1,'ro-');\ntitle(['Namuna olish: f_s = ', num2str(fs1), ' Hz > 2*f_0']);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Uzluksiz signal','Namuna olingan signal');\nsubplot(3,1,2);\nplot(t,x,'b',ts2,x2,'ro-');\ntitle(['Namuna olish: f_s = ', num2str(fs2), ' Hz = 2*f_0']);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Uzluksiz signal','Namuna olingan signal');\nsubplot(3,1,3);\nplot(t,x,'b',ts3,x3,'ro-');\ntitle(['Namuna olish: f_s = ', num2str(fs3), ' Hz < 2*f_0 (Aliasing)']);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\nlegend('Uzluksiz signal','Namuna olingan signal');"
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "F": "25"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "F": "50"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "F": "50"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "F": "10"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "F": "15"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "F": "20"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "F": "25"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "F": "30"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "F": "40"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "F": "50"
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

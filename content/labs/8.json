@@ -1,0 +1,182 @@
+{
+  "lab_number": 8,
+  "title": "Ikki  o'lchovli signallar ustida filtrlashni amalga oshirish",
+  "objective": "Talabalarga ikki o'lchovli (2D) signallar — tasvirlar ustida raqamli filtirlashning asosiy tamoyillari va amaliy qo'llanilishini o'rgatish.",
+  "theory": "8-amaliy mashg'ulot.\n\nIkki  o'lchovli signallar ustida filtrlashni amalga oshirish.\n\nIshning maqsadi: Talabalarga ikki o'lchovli (2D) signallar — tasvirlar ustida raqamli filtirlashning asosiy tamoyillari va amaliy qo'llanilishini o'rgatish.\n\nIkki o'lchovli signal deb matritsa shaklidagi ma'lumotlar to'plamiga aytiladi. Masalan, tasvir (rasm) piksellari 2D signal hisoblanadi:\n\n𝑓(𝑥,𝑦)\n\nbu yerda x — ustun, y — qator koordinatasi.\n\n2D filtirlashning maqsadi\n\nTasvirdan shovqinlarni yo'qotish\n\nSilliqlash (blur) yoki keskinlashtirish (sharpening)\n\nChegaralarni aniqlash (edge detection)",
+  "tasks": "Topshiriq:\n\nMATLAB ga ikki o'lchamli signalni import qilish, unga shovqin qo'shish va filtrlash:\n\n% Rasmni o'qish\n\nI = imread('D://mother.tif');   % MATLABdagi standart rasm\n\nI = im2double(I);\n\nfigure;\n\nimshow(I);\n\ntitle('Asl tasvir');\n\n% a) Salt and pepper shovqini\n\nI_sp = imnoise(I, 'salt & pepper', 0.05);\n\n% b) Gauss shovqini\n\nI_gauss = imnoise(I, 'gaussian', 0, 0.01);\n\n% c) Speckle shovqini\n\nI_speckle = imnoise(I, 'speckle', 0.04);\n\nfigure;\n\nsubplot(1,3,1), imshow(I_sp), title('Salt & Pepper shovqin');\n\nsubplot(1,3,2), imshow(I_gauss), title('Gauss shovqin');\n\nsubplot(1,3,3), imshow(I_speckle), title('Speckle shovqin');\n\nh = fspecial('average', [3 3]);\n\nI_avg = imfilter(I_sp, h, 'replicate');\n\nh_gauss = fspecial('gaussian', [5 5], 1.0);\n\nI_gauss_filtered = imfilter(I_sp, h_gauss, 'replicate');\n\nfigure;\n\nsubplot(2,2,1), imshow(I_sp), title('Shovqinli rasm');\n\nsubplot(2,2,2), imshow(I_avg), title('O'rtacha filtr');\n\nsubplot(2,2,3), imshow(I_gauss_filtered), title('Gauss filtr');\n\nMATLAB ga ikki o'lchamli signalni import qiling, variant asosida unga shovqin qo'shing va filtrlang.",
+  "report_requirements": "Natijalar (skrinshot ko'rinishida).",
+  "conclusion": "",
+  "code_snippets": [
+    "% 2D Tasvir filtrlari va shovqinni tozalash\nI = imread('cameraman.png');\nIgray = rgb2gray(I);\nI_noisy = imnoise(Igray, 'salt & pepper', 0.05);\n\nI_med = medfilt2(I_noisy, [3 3]);\nH_avg = fspecial('average', [3 3]);\nI_avg = imfilter(I_noisy, H_avg);\n\nfigure;\nsubplot(1,3,1); imshow(I_noisy); title('Tuz-qalampir shovqinli tasvir');\nsubplot(1,3,2); imshow(I_avg); title('Average filtr');\nsubplot(1,3,3); imshow(I_med); title('Median filtr (Tozalangan)');",
+    "% Rasmni o'qish\nI = imread('D://mother.tif');   % MATLABdagi standart rasm\nI = im2double(I);\nfigure;\nimshow(I);\ntitle('Asl tasvir');\n% a) Salt and pepper shovqini\nI_sp = imnoise(I, 'salt & pepper', 0.05);\n% b) Gauss shovqini\nI_gauss = imnoise(I, 'gaussian', 0, 0.01);\n% c) Speckle shovqini\nI_speckle = imnoise(I, 'speckle', 0.04);\nfigure;\nsubplot(1,3,1), imshow(I_sp), title('Salt & Pepper shovqin');\nsubplot(1,3,2), imshow(I_gauss), title('Gauss shovqin');\nsubplot(1,3,3), imshow(I_speckle), title('Speckle shovqin');\nh = fspecial('average', [3 3]);\nI_avg = imfilter(I_sp, h, 'replicate');\nh_gauss = fspecial('gaussian', [5 5], 1.0);\nI_gauss_filtered = imfilter(I_sp, h_gauss, 'replicate');\nfigure;\nsubplot(2,2,1), imshow(I_sp), title('Shovqinli rasm');\nsubplot(2,2,2), imshow(I_avg), title('O'rtacha filtr');\nsubplot(2,2,3), imshow(I_gauss_filtered), title('Gauss filtr');"
+  ],
+  "control_questions_raw": [
+    "Filtrlash nima va uning maqsadi nimadan iborat?",
+    "Past chastotali va yuqori chastotali filtrlar o'rtasidagi farq nimada?",
+    "Gauss filtr qanday holatlarda ishlatiladi?",
+    "Filtrlash natijasini grafik asosida qanday tahlil qilish mumkin?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.04,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.06,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.08,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.1,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.02,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.04,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.06,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.08,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.1,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.02,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.04,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.06,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.08,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.1,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.02,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.04,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.06,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "noise_type": "speckle",
+        "noise_param": 0.08,
+        "filter_size": 5
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "noise_type": "salt_pepper",
+        "noise_param": 0.1,
+        "filter_size": 3
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "noise_type": "gaussian",
+        "noise_param": 0.02,
+        "filter_size": 5
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

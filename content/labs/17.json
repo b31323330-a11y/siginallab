@@ -1,0 +1,175 @@
+{
+  "lab_number": 17,
+  "title": "Tasvirlarning rang modellarini o'zgartirish va rang komponentlarini tahlil qilish",
+  "objective": "Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida raqamli tasvirlarning turli rang modellarini o'rganish, RGB tasvirni boshqa rang modellariga o'tkazish va tasvirning alohida rang komponentlarini tahlil qilishdan iborat. Amaliy mashg'ulot davomida talabalar RGB, HSV, grayscale va YCbCr rang modellarining xususiyatlari bilan tanishadilar hamda MATLAB yordamida tasvirning R, G, B rang komponentlarini ajratib ko'rsatishni o'rganadilar.",
+  "theory": "Amaliy mashg'ulot №16\n\nMavzu: Tasvirlarning rang modellarini o'zgartirish va rang komponentlarini tahlil qilish\n\nIshning maqsadi: Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida raqamli tasvirlarning turli rang modellarini o'rganish, RGB tasvirni boshqa rang modellariga o'tkazish va tasvirning alohida rang komponentlarini tahlil qilishdan iborat. Amaliy mashg'ulot davomida talabalar RGB, HSV, grayscale va YCbCr rang modellarining xususiyatlari bilan tanishadilar hamda MATLAB yordamida tasvirning R, G, B rang komponentlarini ajratib ko'rsatishni o'rganadilar.\n\n1. Rang modeli tushunchasi, Rang modeli — raqamli tasvirdagi ranglarni matematik ko'rinishda ifodalash usulidir. Turli sohalarda tasvirni qayta ishlash, saqlash, uzatish va tahlil qilish uchun turli rang modellaridan foydalaniladi.\n\nEng ko'p ishlatiladigan rang modellariga quyidagilar kiradi:\n\nRGB;\n\nHSV;\n\nYCbCr;\n\nGrayscale.\n\n1. RGB rang modeli\n\nRGB (Red, Green, Blue) rang modeli qizil, yashil va ko'k ranglarning kombinatsiyasiga asoslangan. Har bir piksel uchta komponentdan tashkil topadi:\n\nBu yerda:\n\nR — qizil rang komponenti;\n\nG — yashil rang komponenti;\n\nB — ko'k rang komponenti.\n\nMasalan, 8 bitli tasvirda har bir komponent qiymati:\n\nqiymat oralig'ida bo'ladi.\n\nRGB modeli kompyuter monitorlari, televizorlar, telefon ekranlari va raqamli kameralar kabi qurilmalarda keng qo'llaniladi.\n\n2.HSV rang modeli\n\nHSV (Hue, Saturation, Value) modeli rangni inson ko'rishiga yaqinroq tarzda ifodalash uchun ishlatiladi.\n\nHSV uchta komponentdan iborat:\n\nH — Hue — rang tusi;\n\nS — Saturation — rangning to'yinganligi;\n\nV — Value — yorqinlik.\n\nHSV modeli tasvirlarni rang bo'yicha segmentatsiya qilish va ranglarni tahlil qilishda qulay.\n\n4. YCbCr rang modeli\n\nYCbCr modeli asosan televizion tizimlar, video va tasvirlarni siqishda qo'llaniladi.\n\nBu modelda:\n\nY — yorqinlik komponenti;\n\nCb — ko'k rangga bog'liq rang komponenti;\n\nCr — qizil rangga bog'liq rang komponenti.\n\nYorqinlik va rang komponentlarini alohida qayta ishlash imkoniyati ushbu modelning muhim afzalliklaridan biridir.\n\n5. Grayscale modeli\n\nGrayscale — tasvirni kulrang ko'rinishga o'tkazish usuli.\n\nBunda har bir piksel faqat bitta qiymat bilan ifodalanadi:\n\nbu yerda:\n\n0 — qora;\n\n255 — oq;\n\noraliq qiymatlar — kulrang ranglar.\n\nKulrang tasvirlar tasvirni segmentatsiya qilish, konturlarni aniqlash va tasvirlarni tahlil qilishda keng qo'llaniladi.\n\n2. AMALIY QISM\n\n1. Tasvirni MATLAB dasturiga yuklash\n\nAvvalo MATLAB dasturida tasvirni yuklaymiz.\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('peppers.png');\n\nfigure;\n\nimshow(I);\n\ntitle('Boshlang'ich RGB tasvir');\n\nBu yerda imread() funksiyasi tasvirni MATLAB dasturiga yuklaydi.\n\n2. RGB rang komponentlarini ajratish\n\nRGB tasvirdan qizil, yashil va ko'k komponentlarni ajratamiz.\n\nR = I(:,:,1);\n\nG = I(:,:,2);\n\nB = I(:,:,3);\n\nBu yerda:\n\nI(:,:,1) — qizil komponent;\n\nI(:,:,2) — yashil komponent;\n\nI(:,:,3) — ko'k komponent.\n\nEndi ularni alohida ko'rsatamiz:\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I);\n\ntitle('RGB tasvir');\n\nsubplot(2,2,2);\n\nimshow(R);\n\ntitle('Qizil komponent R');\n\nsubplot(2,2,3);\n\nimshow(G);\n\ntitle('Yashil komponent G');\n\nsubplot(2,2,4);\n\nimshow(B);\n\ntitle('Ko'k komponent B');\n\nNatijada tasvirning uchta asosiy rang komponenti alohida ko'rsatiladi.\n\n3. RGB tasvirni Grayscale tasvirga o'tkazish\n\nMATLAB dasturida rgb2gray() funksiyasidan foydalanamiz.\n\ngrayImage = rgb2gray(I);\n\nfigure;\n\nimshow(grayImage);\n\ntitle('Grayscale tasvir');\n\nRGB tasvir uchta komponentdan iborat bo'lsa, grayscale tasvirda faqat bitta intensivlik komponenti mavjud bo'ladi.\n\n4. RGB → HSV o'zgartirish\n\nRGB tasvirni HSV rang modeliga o'tkazish:\n\nHSV = rgb2hsv(I);\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I);\n\ntitle('RGB tasvir');\n\nsubplot(2,2,2);\n\nimshow(HSV(:,:,1));\n\ntitle('H - Hue');\n\nsubplot(2,2,3);\n\nimshow(HSV(:,:,2));\n\ntitle('S - Saturation');\n\nsubplot(2,2,4);\n\nimshow(HSV(:,:,3));\n\ntitle('V - Value');\n\nBu orqali HSV modelining uchta komponenti alohida tahlil qilinadi.\n\n5. RGB → YCbCr o'zgartirish\n\nMATLAB dasturida:\n\nYCbCr = rgb2ycbcr(I);\n\nEndi komponentlarni ajratamiz:\n\nY = YCbCr(:,:,1);\n\nCb = YCbCr(:,:,2);\n\nCr = YCbCr(:,:,3);\n\nUlarni grafik ko'rinishda chiqaramiz:\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I);\n\ntitle('RGB tasvir');\n\nsubplot(2,2,2);\n\nimshow(Y);\n\ntitle('Y - Yorqinlik');\n\nsubplot(2,2,3);\n\nimshow(Cb);\n\ntitle('Cb - Ko'k komponent');\n\nsubplot(2,2,4);\n\nimshow(Cr);\n\ntitle('Cr - Qizil komponent');\n\n6. Rang modellarini taqqoslash\n\nQuyidagi dastur yordamida bir nechta rang modellarini bir vaqtning o'zida ko'rish mumkin:\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('peppers.png');\n\ngrayImage = rgb2gray(I);\n\nHSV = rgb2hsv(I);\n\nYCbCr = rgb2ycbcr(I);\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I);\n\ntitle('RGB');\n\nsubplot(2,2,2);\n\nimshow(grayImage);\n\ntitle('Grayscale');\n\nsubplot(2,2,3);\n\nimshow(HSV);\n\ntitle('HSV');\n\nsubplot(2,2,4);\n\nimshow(YCbCr);\n\ntitle('YCbCr');\n\nEslatma: HSV va YCbCr tasvirlarini oddiy imshow() orqali ko'rsatish ularning komponentlarini to'liq tushuntirib bermaydi. Shu sababli amaliy tahlilda ularning H, S, V hamda Y, Cb, Cr komponentlarini alohida ko'rsatish maqsadga muvofiq.",
+  "tasks": "7. Talabaning mustaqil bajaradigan topshiriqlari\n\n1-topshiriq. MATLAB dasturiga rangli tasvirni yuklang.\n\n2-topshiriq. Tasvirning R, G va B komponentlarini alohida ajrating va ekranga chiqaring.\n\n3-topshiriq. RGB tasvirni Grayscale tasvirga o'tkazing.\n\n4-topshiriq. RGB tasvirni HSV rang modeliga o'tkazing va H, S, V komponentlarini alohida ko'rsating.\n\n5-topshiriq. RGB tasvirni YCbCr rang modeliga o'tkazing va Y, Cb, Cr komponentlarini alohida tahlil qiling.\n\n6-topshiriq. RGB, Grayscale, HSV va YCbCr modellarini o'zaro taqqoslang.\n\n7-topshiriq. Har bir rang modelining qaysi amaliy masalalarda samarali ishlatilishini aniqlang.",
+  "report_requirements": "",
+  "conclusion": "Ushbu amaliy mashg'ulotda raqamli tasvirlarning RGB, Grayscale, HSV va YCbCr rang modellari o'rganildi. MATLAB dasturi yordamida tasvirning rang komponentlari ajratildi va har bir komponentning tasvir shakllanishidagi roli tahlil qilindi. Shuningdek, RGB tasvirni boshqa rang modellariga o'tkazish va ularning afzalliklarini taqqoslash ko'rib chiqildi.",
+  "code_snippets": [
+    "% Rang modellarini tahlil qilish (RGB va uning komponentlari)\nI = imread('peppers.png');\nR = I(:,:,1);\nG = I(:,:,2);\nB = I(:,:,3);\n\nfigure;\nsubplot(2,2,1); imshow(I); title('Asl rangli RGB tasvir');\nsubplot(2,2,2); imshow(R); title('Qizil (R) kanali');\nsubplot(2,2,3); imshow(G); title('Yashil (G) kanali');\nsubplot(2,2,4); imshow(B); title('Ko\\'k (B) kanali');",
+    "I = imread('peppers.png');\nfigure;\nimshow(I);\ntitle('Boshlang'ich RGB tasvir');\nBu yerda imread() funksiyasi tasvirni MATLAB dasturiga yuklaydi.",
+    "figure;\nsubplot(2,2,1);\nimshow(I);\ntitle('RGB tasvir');\nsubplot(2,2,2);\nimshow(R);\ntitle('Qizil komponent R');\nsubplot(2,2,3);\nimshow(G);\ntitle('Yashil komponent G');\nsubplot(2,2,4);\nimshow(B);\ntitle('Ko'k komponent B');",
+    "figure;\nimshow(grayImage);\ntitle('Grayscale tasvir');",
+    "figure;\nsubplot(2,2,1);\nimshow(I);\ntitle('RGB tasvir');\nsubplot(2,2,2);\nimshow(HSV(:,:,1));\ntitle('H - Hue');\nsubplot(2,2,3);\nimshow(HSV(:,:,2));\ntitle('S - Saturation');\nsubplot(2,2,4);\nimshow(HSV(:,:,3));\ntitle('V - Value');",
+    "figure;\nsubplot(2,2,1);\nimshow(I);\ntitle('RGB tasvir');\nsubplot(2,2,2);\nimshow(Y);\ntitle('Y - Yorqinlik');\nsubplot(2,2,3);\nimshow(Cb);\ntitle('Cb - Ko'k komponent');\nsubplot(2,2,4);\nimshow(Cr);\ntitle('Cr - Qizil komponent');",
+    "I = imread('peppers.png');\ngrayImage = rgb2gray(I);\nHSV = rgb2hsv(I);\nYCbCr = rgb2ycbcr(I);\nfigure;\nsubplot(2,2,1);\nimshow(I);\ntitle('RGB');\nsubplot(2,2,2);\nimshow(grayImage);\ntitle('Grayscale');\nsubplot(2,2,3);\nimshow(HSV);\ntitle('HSV');\nsubplot(2,2,4);\nimshow(YCbCr);\ntitle('YCbCr');\nEslatma: HSV va YCbCr tasvirlarini oddiy imshow() orqali ko'rsatish ularning komponentlarini to'liq tushuntirib bermaydi. Shu sababli amaliy tahlilda ularning H, S, V hamda Y, Cb, Cr komponentlarini alohida ko'rsatish maqsadga muvofiq.",
+    "imread() funksiyasining vazifasi nima?"
+  ],
+  "control_questions_raw": [
+    "Rang modeli nima?",
+    "RGB rang modelining asosiy komponentlari qaysilar?",
+    "R, G va B komponentlari nimani ifodalaydi?",
+    "RGB rang modelida bitta piksel qanday ifodalanadi?",
+    "imread() funksiyasining vazifasi nima?",
+    "MATLAB dasturida RGB komponentlarini qanday ajratish mumkin?",
+    "Grayscale tasvir nima?",
+    "RGB tasvirni grayscale tasvirga o'tkazish uchun qaysi funksiya ishlatiladi?",
+    "HSV rang modelining asosiy komponentlari qaysilar?",
+    "Hue, Saturation va Value tushunchalari nimani anglatadi?",
+    "RGB tasvirni HSV modeliga o'tkazish uchun qaysi MATLAB funksiyasidan foydalaniladi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "H"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "S"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "V"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "Y"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "Cb"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "Cr"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "H"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "S"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "V"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "Y"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "Cb"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "Cr"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "H"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "S"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "V"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "Y"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "Cb"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "target_model": "Grayscale",
+        "target_channel": "Cr"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "target_model": "HSV",
+        "target_channel": "H"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "target_model": "YCbCr",
+        "target_channel": "S"
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

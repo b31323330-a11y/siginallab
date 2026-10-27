@@ -1,0 +1,159 @@
+{
+  "lab_number": 6,
+  "title": "Bir va ikki o'lchovli signallarda svyortka va korrelyatsiyani amallarini bajarish",
+  "objective": "Diskret tizimlarda signal konvolyutsiyasi usulini o'rganish va konvolyutsiyani hisoblash ko'nikmalarini egallash, shuningdek, natijalarni tahlil qilish.",
+  "theory": "6-amaliy mashg'ulot.\n\nBir va ikki o'lchovli signallarda svyortka va korrelyatsiyani amallarini bajarish.\n\nIshning maqsadi: Diskret tizimlarda signal konvolyutsiyasi usulini o'rganish va konvolyutsiyani hisoblash ko'nikmalarini egallash, shuningdek, natijalarni tahlil qilish.",
+  "tasks": "Topshiriq variantlari:\n\n1. Variant 1:\n\nBerilgan ketma-ketliklar x ( n ) = [1, 2, 3] va h ( n ) = [0, 1, 0.5].\n\nKonvolyutsiyani hisoblashni amalga oshirish va natijada olingan signalni chizish kerak.\n\n2. Variant 2:\n\nBerilgan ketma-ketliklar x ( n ) = [1, -1, 2] va h ( n ) = [0,5, 1, -0,5].\n\nKonvolyutsiya hisobini bajaring va natijada olingan signalni chizing.\n\n3. Variant 3:\n\nX ( n ) = [1, 2, 1] va h ( n ) = [1, -1] ketma-ketliklari berilgan .\n\nKonvolyutsiyani hisoblashni amalga oshirish va natijada olingan signalni chizish kerak.\n\nHisoblash:\n\nTaklif etilgan muammo variantlarining har biri uchun konvolyutsiyani hisoblashni amalga oshirish kerak. Quyida 1-variant uchun hisoblash misoli keltirilgan:\n\nDastlabki ma'lumotlar:\n\nx ( n ) = [1, 2, 3]\n\nh ( n ) = [0, 1, 0,5]\n\nKonvolyutsiyani hisoblash:\n\nKonvolyutsiya natijasi: y ( n ) = [1.5, 1, 2.5, 3.5, 1.5].\n\nBoshqa variantlar uchun ham xuddi shunday hisob-kitoblarni bajaring.\n\nKonvolyutsiya va chizmalarni bajarish uchun MATLAB yoki Python kabi dasturiy vositalardan ham foydalanishingiz mumkin .\n\nMATLABda 1-variant uchun konvolyutsiyani bajarish misoli:\n\n% Dastlabki ketma-ketlik\n\nx = [1, 2, 3];\n\nh = [0, 1, 0.5];\n\n% Svyortka\n\ny = conv(x, h);\n\n% Svyortka natijasining olinishi\n\ndisp('Результат свертки:');\n\ndisp(y);\n\n% Grafik qurilishi\n\nn_x = 0:length(x)-1; % x uchun vaqt o'qi\n\nn_h = 0:length(h)-1; % h uchun vaqt o'qi\n\nn_y = 0:length(y)-1; % y uchun vaqt o'qi\n\nfigure;\n\nsubplot(3,1,1);\n\nstem(n_x, x, 'filled');\n\ntitle('Kiruvchi signal x(n)');\n\nxlabel('n');\n\nylabel('x(n)');\n\ngrid on;\n\nsubplot(3,1,2);\n\nstem(n_h, h, 'filled');\n\ntitle('Impuls xarakteristikasi h(n)');\n\nxlabel('n');\n\nylabel('h(n)');\n\ngrid on;\n\nsubplot(3,1,3);\n\nstem(n_y, y, 'filled');\n\ntitle('Svyortka natijasi y(n)');\n\nxlabel('n');\n\nylabel('y(n)');\n\ngrid on;\n\nSvyortka natijasi:\n\n0    1.0000    2.5000    4.0000    1.5000\n\nTushuntirish:\n\n- `conv(x, h)` funksiyasi ikkita x(n) va h(n) signallarining konvolyutsiyasini amalga oshiradi.\n\n- `Stem` funksiyasi yordamida tuzilgan grafiklar dastlabki signallarni va ularning konvolyutsiyasi natijasini vizual tarzda solishtirish imkonini beradi.\n\nNatija: Ushbu kodni MATLAB da ishga tushirgandan so'ng, siz konvolyutsiya natijasini olasiz:\n\ny(n) = [0, 1, 2.5, 3.5, 1,5]\n\nSignal \\(x(n)\\), impuls javobi \\(h(n)\\) va natijada \\(y(n)\\) uchun grafiklar tuziladi.\n\nXulosa: Amaliy ish davomida diskret tizimlarda konvolyutsiyani hisoblash usullari o'zlashtirildi. Natijalar tizimning impulsli javobi kirish signalini qanday o'zgartirishini ko'rsatdi. Amalga oshirilgan hisob-kitoblar konvolyutsiya chiziqli tizimlarni tahlil qilish va sintez qilish uchun muhim vosita ekanligi haqida xulosa chiqarishga imkon beradi.\n\nTopshiriq:\n\n1. Konvolyutsiya jarayonining nazariy asoslarini o'rganish.\n\n2. Diskret tizimlarda konvolyutsiyani hisoblash usullari bilan tanishing.\n\n3. Taklif etilgan masala variantlari uchun konvolyutsiya hisoblarini bajaring.\n\n4. Olingan natijalarni tahlil qiling va xulosa chiqaring.\n\nX ( n ) = [1, 2, 1] va h ( n ) = [1, -1] ketma-ketliklari berilgan .\n\nKonvolyutsiyani hisoblashni amalga oshirish va natijada olingan signalni chizish kerak.\n\nTalabalardan barcha taklif etilgan vazifalarni mustaqil ravishda bajarishlari, so'ngra olingan natijalarni dasturiy vositalar yordamida olingan natijalar bilan solishtirishlari so'raladi.",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% 1D Signallarda svyortka (konvolyutsiya)\nx = [1, 2, 3, 2, 1];\nh = [0.2, 0.5, 0.2];\ny = conv(x, h);\ndisp('Svyortka natijasi y:');\ndisp(y);\n\nfigure;\nsubplot(3,1,1); stem(x, 'b'); title('Kiruvchi signal x(n)'); grid on;\nsubplot(3,1,2); stem(h, 'r'); title('Impuls javobi h(n)'); grid on;\nsubplot(3,1,3); stem(y, 'g'); title('Konvolyutsiya natijasi y(n)'); grid on;",
+    "% Dastlabki ketma-ketlik\nx = [1, 2, 3];\nh = [0, 1, 0.5];\n% Svyortka\ny = conv(x, h);\n% Svyortka natijasining olinishi\ndisp('Результат свертки:');\ndisp(y);\n% Grafik qurilishi",
+    "figure;\nsubplot(3,1,1);\nstem(n_x, x, 'filled');\ntitle('Kiruvchi signal x(n)');\nxlabel('n');\nylabel('x(n)');\ngrid on;\nsubplot(3,1,2);\nstem(n_h, h, 'filled');\ntitle('Impuls xarakteristikasi h(n)');\nxlabel('n');\nylabel('h(n)');\ngrid on;\nsubplot(3,1,3);\nstem(n_y, y, 'filled');\ntitle('Svyortka natijasi y(n)');\nxlabel('n');\nylabel('y(n)');\ngrid on;",
+    "- `conv(x, h)` funksiyasi ikkita x(n) va h(n) signallarining konvolyutsiyasini amalga oshiradi."
+  ],
+  "control_questions_raw": [],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "x_n": "1, 2, 3",
+        "h_n": "0, 1, 0.5"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "x_n": "1, -1, 2",
+        "h_n": "0.5, 1, -0.5"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "x_n": "1, 2, 1",
+        "h_n": "1, -1.0"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "x_n": "1, 0, -1",
+        "h_n": "0.5 , 1, -1"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "x_n": "1, -1, 1",
+        "h_n": "0.5 , -1, 1"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "x_n": "-1, 0, 1",
+        "h_n": "-0.5, 1, -0.5"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "x_n": "0 ,-1, 0",
+        "h_n": "0, 1, 0.5"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "x_n": "-1 ,-1, 1",
+        "h_n": "0.5, 1, -0.5"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "x_n": "1, 2, 3",
+        "h_n": "1, -1.0"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "x_n": "1, -1, 2",
+        "h_n": "0.5 , 1, -1"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "x_n": "1, 2, 1",
+        "h_n": "0.5 , -1, 1"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "x_n": "1, 0, -1",
+        "h_n": "-0.5, 1, -0.5"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "x_n": "1 ,-1, 1",
+        "h_n": "0, 1, 0.5"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "x_n": "-1 ,0, 1",
+        "h_n": "0.5 , -1, 1"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "x_n": "0 ,-1, 0",
+        "h_n": "0.5, 1,-1"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "x_n": "-1, -1, 1",
+        "h_n": "1,-1.0.5"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "x_n": "-1.1,0",
+        "h_n": "0, 1, 0.5"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "x_n": "1,-1.0",
+        "h_n": "1, -1.0"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "x_n": "-1.3,2",
+        "h_n": "0.5, 1, -0.5"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "x_n": "1, -1, 2",
+        "h_n": "0.5 , 1, -1"
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

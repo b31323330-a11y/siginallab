@@ -1,0 +1,181 @@
+{
+  "lab_number": 14,
+  "title": "Signallarning axborot beruvchi belgilarini ajratib oluvchi dastur tuzish",
+  "objective": "Raqamli signallarning asosiy axborot beruvchi belgilarini aniqlash va ulardan foydali ma'lumotlarni ajratib olish usullarini o'rganish. MATLAB dasturi yordamida signalning amplitudasi, o'rtacha qiymati, RMS qiymati, energiyasi, quvvati va chastota kabi asosiy parametrlarini aniqlash hamda ularni grafik ko'rinishda tahlil qilish.",
+  "theory": "AMALIY MASHG'ULOT №14\n\nMavzu: Signallarning axborot beruvchi belgilarini\n\najratib oluvchi dastur tuzish\n\nIshning maqsadi: Raqamli signallarning asosiy axborot beruvchi belgilarini aniqlash va ulardan foydali ma'lumotlarni ajratib olish usullarini o'rganish. MATLAB dasturi yordamida signalning amplitudasi, o'rtacha qiymati, RMS qiymati, energiyasi, quvvati va chastota kabi asosiy parametrlarini aniqlash hamda ularni grafik ko'rinishda tahlil qilish.\n\n1. Signal haqida tushuncha\n\nSignal — ma'lum bir axborotni o'zida mujassamlashtirgan va vaqt, fazo yoki boshqa mustaqil o'zgaruvchiga bog'liq bo'lgan fizik yoki matematik kattalikdir.\n\nTelekommunikatsiya tizimlarida ovoz, tasvir, video, ma'lumotlar va boshqa axborotlar signal yordamida uzatiladi.\n\nRaqamli signal kompyuterda qayta ishlanishi uchun odatda diskret ko'rinishga keltiriladi. Diskret signal:\n\nx(n)x(n)\n\nko'rinishida ifodalanadi.\n\n2. Signalning axborot beruvchi belgilari\n\nSignalning axborot beruvchi belgilari signal haqida muhim ma'lumot beradigan parametrlar hisoblanadi. Ularga quyidagilar kiradi:\n\namplituda;\n\nmaksimal qiymat;\n\nminimal qiymat;\n\no'rtacha qiymat;\n\nRMS qiymati;\n\nenergiya;\n\nquvvat;\n\nchastota;\n\nfaza;\n\nspektral tarkib.\n\nUshbu belgilar yordamida signalning xususiyatlarini aniqlash va turli signallarni bir-biri bilan taqqoslash mumkin.\n\n3. Signal amplitudasi\n\nAmplituda signalning maksimal og'ish qiymatini ifodalaydi.\n\nMasalan:\n\nx(t)=Asin⁡(2πft)x(t)=A\\sin(2\\pi ft)\n\nbu yerda AA — signal amplitudasi, ff — chastota.\n\nDiskret signal uchun maksimal amplituda:\n\nAmax=max⁡∣x(n)∣A_{max}=\\max |x(n)|\n\nformula yordamida aniqlanadi.\n\nMATLABda:\n\nAmax = max(abs(x));\n\n4. Signalning o'rtacha qiymati\n\nSignalning o'rtacha qiymati:\n\nxˉ=1N∑n=1Nx(n)\\bar{x}=\\frac{1}{N}\\sum_{n=1}^{N}x(n)\n\nformula orqali aniqlanadi.\n\nMATLABda:\n\nmeanValue = mean(x);\n\n5. RMS qiymati\n\nRMS — signalning samarali qiymati bo'lib, quyidagicha aniqlanadi:\n\nXRMS=1N∑n=1Nx2(n)X_{RMS}= \\sqrt{\\frac{1}{N}\\sum_{n=1}^{N}x^2(n)}\n\nMATLABda:\n\nrmsValue = rms(x);\n\nyoki:\n\nrmsValue = sqrt(mean(x.^2));\n\n6. Signal energiyasi\n\nDiskret signalning energiyasi:\n\nE=∑n=1N∣x(n)∣2E=\\sum_{n=1}^{N}|x(n)|^2\n\nformula bilan hisoblanadi.\n\nMATLABda:\n\nE = sum(abs(x).^2);\n\n7. Signal quvvati\n\nSignalning o'rtacha quvvati:\n\nP=1N∑n=1N∣x(n)∣2P=\\frac{1}{N}\\sum_{n=1}^{N}|x(n)|^2\n\nformula yordamida hisoblanadi.\n\nMATLABda:\n\nP = mean(abs(x).^2);\n\n8. Signal chastotasi\n\nChastota signalning bir sekund davomida necha marta takrorlanishini bildiradi.\n\nf=1Tf=\\frac{1}{T}\n\nbu yerda:\n\nff — chastota;\n\nTT — signal davri.\n\nMurakkab signallarning chastota tarkibini aniqlash uchun Furye almashtirishi (FFT) qo'llaniladi.\n\nMATLABda:\n\nX = fft(x);\n\nbuyrug'i signalning chastota spektrini aniqlash imkonini beradi.\n\nAMALIY QISM\n\n1-topshiriq. Sinusoidal signal hosil qilish\n\nMATLAB dasturini ishga tushiring va quyidagi dastur kodini kiriting:\n\nclc;\n\nclear;\n\nclose all;\n\nFs = 1000;       % Diskretlash chastotasi\n\nT = 1;           % Signal davomiyligi\n\nt = 0:1/Fs:T-1/Fs;\n\nA = 2;           % Signal amplitudasi\n\nf = 50;          % Signal chastotasi\n\nx = A*sin(2*pi*f*t);\n\nBu yerda:\n\nFs — diskretlash chastotasi;\n\nT — signal davomiyligi;\n\nA — signal amplitudasi;\n\nf — signal chastotasi;\n\nx — hosil qilingan sinusoidal signal.\n\n2-topshiriq. Signalni grafik ko'rinishda chiqarish\n\nSignalni vaqt sohasida tasvirlash:\n\nfigure;\n\nplot(t,x);\n\ngrid on;\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\ntitle('Dastlabki signal');\n\nNatijada sinusoidal signal grafigi hosil bo'ladi.\n\n3-topshiriq. Signalning maksimal va minimal qiymatlarini aniqlash\n\nmaxValue = max(x);\n\nminValue = min(x);\n\nfprintf('Maksimal qiymat = %.3f\\n', maxValue);\n\nfprintf('Minimal qiymat = %.3f\\n', minValue);\n\nNazariy jihatdan A=2A=2 bo'lgani uchun maksimal qiymat taxminan 2, minimal qiymat esa −2 bo'lishi kerak.\n\n4-topshiriq. Signalning o'rtacha qiymatini aniqlash\n\nmeanValue = mean(x);\n\nfprintf('O''rtacha qiymat = %.3f\\n', meanValue);\n\nTo'liq davrlarni o'z ichiga olgan sinusoidal signal uchun o'rtacha qiymat odatda 0 ga yaqin bo'ladi.\n\n5-topshiriq. RMS qiymatini aniqlash\n\nrmsValue = rms(x);\n\nfprintf('RMS qiymat = %.3f\\n', rmsValue);\n\nSinusoidal signal uchun:\n\nXRMS=A2X_{RMS}=\\frac{A}{\\sqrt{2}}\n\nShuning uchun A=2A=2 bo'lganda RMS qiymat taxminan 1.414 ga teng bo'ladi.\n\nMUSTAQIL TOPSHIRIQ\n\nTalaba o'z variantiga mos ravishda signal amplitudasi va chastotasini o'zgartirib, dastur yordamida signal belgilarini aniqlashi kerak.\n\nHar bir talaba o'z varianti bo'yicha:\n\nSignalni hosil qiladi.\n\nSignal grafigini chizadi.\n\nMaksimal va minimal qiymatlarni aniqlaydi.\n\nO'rtacha qiymatni hisoblaydi.\n\nIshni bajarish tartibi\n\nMATLAB dasturini ishga tushirish.\n\nSignalning parametrlarini berish.\n\nDiskret vaqt o'qini hosil qilish.\n\nSinusoidal signalni yaratish.\n\nSignalni grafik ko'rinishda tasvirlash.\n\nMATLAB dastur kodi.\n\nDastlabki signal grafigi.\n\nSignalning chastota spektri.\n\nShovqinli signal grafigi.\n\nNatijalar jadvali.\n\nOlingan natijalar tahlili.",
+  "tasks": "",
+  "report_requirements": "Talaba amaliy mashg'ulot yakunida quyidagilarni taqdim etadi:\n\nAmaliy mashg'ulot mavzusi.\n\nIshning maqsadi.",
+  "conclusion": "Ushbu amaliy mashg'ulotda signallarning axborot beruvchi asosiy belgilarini ajratib olish usullari o'rganildi. MATLAB dasturi yordamida signalning amplitudasi, maksimal va minimal qiymatlari, o'rtacha qiymati, RMS qiymati, energiyasi va quvvati hisoblandi. FFT algoritmi yordamida signalning chastota spektri hosil qilindi va dominant chastota avtomatik ravishda aniqlandi. Shuningdek, signalga shovqin qo'shilib, shovqinning signal parametrlariga ta'siri tahlil qilindi. Natijada MATLAB muhitida signalning asosiy axborot beruvchi belgilarini avtomatik aniqlovchi dastur yaratildi.",
+  "code_snippets": [
+    "% Signal belgilarini ajratib olish (RMS, Quvvat, ZCR)\nFs = 1000;\nt = 0:1/Fs:1;\nf0 = 25;\nx = 1.5 * sin(2*pi*f0*t) + 0.3 * randn(size(t));\n\nrms_val = rms(x);\nP_val = mean(x.^2);\n\ndisp(['Signal RMS: ', num2str(rms_val)]);\ndisp(['Signal o\\'rtacha quvvati: ', num2str(P_val)]);\n\nfigure;\nplot(t, x, 'b'); grid on;\ntitle(['Axborot belgilari: RMS = ', num2str(round(rms_val, 3)), ', P = ', num2str(round(P_val, 3))]);",
+    "X = fft(x);",
+    "Fs = 1000;       % Diskretlash chastotasi",
+    "t = 0:1/Fs:T-1/Fs;\nA = 2;           % Signal amplitudasi\nf = 50;          % Signal chastotasi\nx = A*sin(2*pi*f*t);",
+    "figure;\nplot(t,x);\ngrid on;\nxlabel('Vaqt, s');\nylabel('Amplituda');\ntitle('Dastlabki signal');"
+  ],
+  "control_questions_raw": [
+    "Signal deb nimaga aytiladi?",
+    "Raqamli signal nima?",
+    "Signalning axborot beruvchi belgilariga nimalar kiradi?",
+    "Signal amplitudasi nima?",
+    "Signalning maksimal qiymati qanday aniqlanadi?",
+    "Signalning minimal qiymati qanday aniqlanadi?",
+    "Signalning o'rtacha qiymati qanday hisoblanadi?",
+    "RMS qiymati nima?",
+    "Signal energiyasi nima?",
+    "Signal quvvati qanday aniqlanadi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "Amplituda_A": "1",
+        "Chastota_f": "20 Hz"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "Amplituda_A": "1.5",
+        "Chastota_f": "30 Hz"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "Amplituda_A": "2",
+        "Chastota_f": "50 Hz"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "Amplituda_A": "2.5",
+        "Chastota_f": "60 Hz"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "Amplituda_A": "3",
+        "Chastota_f": "80 Hz"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "Amplituda_A": "3.5",
+        "Chastota_f": "100 Hz"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "Amplituda_A": "4",
+        "Chastota_f": "120 Hz"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "Amplituda_A": "4.5",
+        "Chastota_f": "150 Hz"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "Amplituda_A": "5",
+        "Chastota_f": "180 Hz"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "Amplituda_A": "5.5",
+        "Chastota_f": "200 Hz"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "Amplituda_A": "1",
+        "Chastota_f": "20 Hz"
+      },
+      "mapped_from": 1
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "Amplituda_A": "1.5",
+        "Chastota_f": "30 Hz"
+      },
+      "mapped_from": 2
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "Amplituda_A": "2",
+        "Chastota_f": "50 Hz"
+      },
+      "mapped_from": 3
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "Amplituda_A": "2.5",
+        "Chastota_f": "60 Hz"
+      },
+      "mapped_from": 4
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "Amplituda_A": "3",
+        "Chastota_f": "80 Hz"
+      },
+      "mapped_from": 5
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "Amplituda_A": "3.5",
+        "Chastota_f": "100 Hz"
+      },
+      "mapped_from": 6
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "Amplituda_A": "4",
+        "Chastota_f": "120 Hz"
+      },
+      "mapped_from": 7
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "Amplituda_A": "4.5",
+        "Chastota_f": "150 Hz"
+      },
+      "mapped_from": 8
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "Amplituda_A": "5",
+        "Chastota_f": "180 Hz"
+      },
+      "mapped_from": 9
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "Amplituda_A": "5.5",
+        "Chastota_f": "200 Hz"
+      },
+      "mapped_from": 10
+    }
+  ],
+  "raw_tables_count": 1
+}

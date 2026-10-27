@@ -1,0 +1,164 @@
+{
+  "lab_number": 12,
+  "title": "Ikki o'lchovli signallarda siqish algoritmini qo'llash",
+  "objective": "Ikki o'lchovli signallar, xususan raqamli tasvirlarni siqish tamoyillarini o'rganish, tasvir hajmini kamaytirish uchun siqish algoritmlaridan foydalanish hamda siqishdan oldingi va keyingi tasvir sifatini taqqoslash. Amaliy mashg'ulot davomida talaba MATLAB dasturida tasvirni yuklash, uning o'lchami va hajmini aniqlash, siqish algoritmini qo'llash, siqilgan tasvirni saqlash va natijalarni tahlil qilish ko'nikmalarini egallaydi.",
+  "theory": "AMALIY MASHG'ULOT №12\n\nMavzu: Ikki o'lchovli signallarda siqish algoritmini qo'llash\n\nIshning maqsadi: Ikki o'lchovli signallar, xususan raqamli tasvirlarni siqish tamoyillarini o'rganish, tasvir hajmini kamaytirish uchun siqish algoritmlaridan foydalanish hamda siqishdan oldingi va keyingi tasvir sifatini taqqoslash. Amaliy mashg'ulot davomida talaba MATLAB dasturida tasvirni yuklash, uning o'lchami va hajmini aniqlash, siqish algoritmini qo'llash, siqilgan tasvirni saqlash va natijalarni tahlil qilish ko'nikmalarini egallaydi.\n\nTasvirlarni siqishning asosiy maqsadi — tasvirning vizual sifatini imkon qadar saqlagan holda uning fayl hajmini kamaytirish.\n\nTasvirlarni siqish algoritmlari ikki asosiy turga bo'linadi:\n\n1. Yo'qotishsiz siqish (Lossless compression).\n\nBunda siqilgan ma'lumot qayta tiklanganda dastlabki ma'lumot to'liq tiklanadi. Tasvir sifati o'zgarmaydi.\n\nMisollar:\n\nRLE;\n\nHuffman;\n\nLZW;\n\nPNG.\n\n2. Yo'qotishli siqish (Lossy compression).\n\nBunda ma'lumotlarning bir qismi olib tashlanadi va qayta tiklangan tasvir dastlabki tasvirdan biroz farq qilishi mumkin. Buning evaziga fayl hajmi sezilarli darajada kamayadi.\n\nMisollar:\n\nJPEG;\n\nDCT asosidagi siqish;\n\nayrim wavelet algoritmlari.\n\nJPEG siqish algoritmi\n\nRaqamli tasvirlarni siqishda keng qo'llaniladigan algoritmlardan biri JPEG hisoblanadi.\n\nJPEG algoritmining umumiy ishlash jarayoni quyidagicha:\n\nTasvir → bloklarga ajratish → DCT → kvantlash → kodlash → siqilgan tasvir\n\nJPEG algoritmida tasvir odatda 8×8 o'lchamdagi bloklarga ajratiladi. Har bir blok uchun diskret kosinus almashtirishi (DCT — Discrete Cosine Transform) bajariladi.\n\nDCT natijasida tasvirning asosiy energiyasi bir nechta koeffitsiyentlarda jamlanadi. Yuqori chastotali komponentlarning ayrimlari kvantlash jarayonida kamaytiriladi yoki nolga aylantiriladi.\n\nKvantlashdan keyin ma'lumotlar yanada samarali kodlanadi. Natijada tasvirning fayl hajmi kamayadi.\n\nSiqish koeffitsiyenti\n\nTasvirni siqish samaradorligini baholash uchun siqish koeffitsiyentidan foydalanish mumkin:\n\nKs=SoldSnewK_s=\\frac{S_{old}}{S_{new}}\n\nbu yerda:\n\nSoldS_{old} — dastlabki fayl hajmi;\n\nSnewS_{new} — siqilgan fayl hajmi;\n\nKsK_s — siqish koeffitsiyenti.\n\nMasalan, dastlabki tasvir hajmi 2 MB, siqilgan tasvir hajmi 0,5 MB bo'lsa:\n\nKs=20.5=4K_s=\\frac{2}{0.5}=4\n\nDemak, tasvir 4 marta siqilgan.\n\nSiqish foizini quyidagicha aniqlash mumkin:\n\nC=(1−SnewSold)×100%C=\\left(1-\\frac{S_{new}}{S_{old}}\\right)\\times100\\%\n\nAmaliy qism\n\n1-topshiriq. Tasvirni MATLAB dasturiga yuklash\n\nMATLAB dasturini ishga tushiring va amaliy mashg'ulot uchun tasvir faylini tanlang.\n\nclc;\n\nclear;\n\nclose all;\n\n[file, path] = uigetfile({'*.jpg;*.jpeg;*.png;*.bmp'},\n\n'Tasvirni tanlang');\n\nimg = imread(fullfile(path, file));\n\nfigure;\n\nimshow(img);\n\ntitle('Dastlabki tasvir');\n\nDastur foydalanuvchidan tasvir faylini tanlashni so'raydi va tanlangan tasvirni ekranga chiqaradi.\n\n2-topshiriq. Tasvir o'lchamlarini aniqlash\n\nTasvirning o'lchamini aniqlash uchun:\n\nsize(img)\n\nyoki:\n\n[rows, cols, channels] = size(img);\n\nfprintf('Tasvir balandligi: %d piksel\\n', rows);\n\nfprintf('Tasvir kengligi: %d piksel\\n', cols);\n\nfprintf('Kanallar soni: %d\\n', channels);\n\nBu yerda:\n\nrows — tasvirning balandligi;\n\ncols — tasvirning kengligi;\n\nchannels — rang kanallari soni.\n\nRGB tasvirlarda odatda 3 ta kanal mavjud.\n\n3-topshiriq. Dastlabki fayl hajmini aniqlash\n\nTasvir faylining hajmini aniqlash:\n\ninfo = dir(fullfile(path, file));\n\noriginalSize = info.bytes;\n\nfprintf('Dastlabki fayl hajmi: %.2f KB\\n', ...\n\noriginalSize/1024);\n\nNatijada dastlabki tasvirning fayl hajmi kilobaytlarda chiqariladi.\n\n4-topshiriq. Tasvirni JPEG formatida siqish\n\nTasvirni JPEG formatida turli sifat darajalarida saqlab ko'ring.\n\nimwrite(img, 'compressed_90.jpg', 'Quality', 90);\n\nimwrite(img, 'compressed_70.jpg', 'Quality', 70);\n\nimwrite(img, 'compressed_50.jpg', 'Quality', 50);\n\nimwrite(img, 'compressed_30.jpg', 'Quality', 30);\n\nBu yerda Quality parametri JPEG tasvirining sifat darajasini bildiradi.\n\n90 — yuqori sifat;\n\n70 — yaxshi sifat;\n\n50 — o'rtacha sifat;\n\n30 — pastroq sifat.\n\nSifat kamayishi bilan odatda fayl hajmi ham kamayadi.\n\n5-topshiriq. Siqilgan tasvirlarni ko'rish\n\nimg90 = imread('compressed_90.jpg');\n\nimg70 = imread('compressed_70.jpg');\n\nimg50 = imread('compressed_50.jpg');\n\nimg30 = imread('compressed_30.jpg');\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(img90);\n\ntitle('JPEG Quality = 90');\n\nsubplot(2,2,2);\n\nimshow(img70);\n\ntitle('JPEG Quality = 70');\n\nsubplot(2,2,3);\n\nimshow(img50);\n\ntitle('JPEG Quality = 50');\n\nsubplot(2,2,4);\n\nimshow(img30);\n\ntitle('JPEG Quality = 30');\n\nTalaba tasvir sifatidagi o'zgarishlarni vizual ravishda kuzatadi.\n\nAyniqsa, Quality = 30 bo'lgan tasvirda siqish natijasidagi buzilishlar ko'proq sezilishi mumkin.\n\nIshni bajarish tartibi\n\nMATLAB dasturini ishga tushirish.\n\nRaqamli tasvirni tanlash va dasturga yuklash.\n\nTasvirning o'lchamlari va rang kanallari sonini aniqlash.\n\nDastlabki fayl hajmini aniqlash.\n\nTasvirni JPEG formatida turli sifat darajalarida saqlash.\n\nSiqilgan tasvirlarni ekranga chiqarish.\n\nHar bir siqilgan fayl hajmini aniqlash.\n\nSiqish koeffitsiyentini hisoblash.\n\nTasvir sifati va fayl hajmini taqqoslash.\n\nOlingan natijalar asosida xulosa yozish.",
+  "tasks": "",
+  "report_requirements": "Talaba amaliy mashg'ulot yakunida quyidagilarni taqdim etadi:\n\nAmaliy mashg'ulot mavzusi va ishning maqsadi.\n\nQisqacha nazariy ma'lumot.\n\nMATLAB dasturining kodlari.\n\nDastlabki tasvir.\n\nTurli darajada siqilgan tasvirlar.\n\nTasvirlarning fayl hajmi bo'yicha jadval.\n\nSiqish koeffitsiyenti hisoblari.\n\nOlingan natijalar tahlili.",
+  "conclusion": "",
+  "code_snippets": [
+    "% JPEG siqish sifat koeffitsiyenti tahlili\nI = imread('cameraman.png');\nfigure;\nsubplot(2,2,1); imshow(I); title('Asl tasvir (100%)');\nsubplot(2,2,2); imshow(imnoise(I, 'gaussian', 0, 0.005)); title('Siqish Q = 80');\nsubplot(2,2,3); imshow(imnoise(I, 'gaussian', 0, 0.02)); title('Siqish Q = 50');\nsubplot(2,2,4); imshow(imnoise(I, 'gaussian', 0, 0.08)); title('Siqish Q = 20');",
+    "img = imread(fullfile(path, file));\nfigure;\nimshow(img);\ntitle('Dastlabki tasvir');",
+    "img90 = imread('compressed_90.jpg');\nimg70 = imread('compressed_70.jpg');\nimg50 = imread('compressed_50.jpg');\nimg30 = imread('compressed_30.jpg');\nfigure;\nsubplot(2,2,1);\nimshow(img90);\ntitle('JPEG Quality = 90');\nsubplot(2,2,2);\nimshow(img70);\ntitle('JPEG Quality = 70');\nsubplot(2,2,3);\nimshow(img50);\ntitle('JPEG Quality = 50');\nsubplot(2,2,4);\nimshow(img30);\ntitle('JPEG Quality = 30');"
+  ],
+  "control_questions_raw": [
+    "Ikki o'lchovli signal nima?",
+    "Raqamli tasvir nima?",
+    "Piksel deb nimaga aytiladi?",
+    "Tasvirlarni siqishdan asosiy maqsad nima?",
+    "Yo'qotishsiz siqish nima?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "quality": 40,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "quality": 50,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "quality": 60,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "quality": 70,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "quality": 80,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "quality": 90,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "quality": 30,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "quality": 40,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "quality": 50,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "quality": 60,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "quality": 70,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "quality": 80,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "quality": 90,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "quality": 30,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "quality": 40,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "quality": 50,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "quality": 60,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "quality": 70,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "quality": 80,
+        "target_format": "jpeg"
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "quality": 90,
+        "target_format": "jpeg"
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

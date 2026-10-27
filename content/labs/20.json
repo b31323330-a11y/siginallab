@@ -1,0 +1,204 @@
+{
+  "lab_number": 20,
+  "title": "Tasvirlar sifatini oshirish va audio signallarni ajratib olish usullarini tahlil qilish",
+  "objective": "Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida raqamli tasvirlar sifatini yaxshilash va audio signallarni qayta ishlash usullarini o'rganishdan iborat. Amaliy mashg'ulot davomida tasvirlarning yorqinligi, kontrasti va aniqligini oshirish, shuningdek audio signalni yuklash, vaqt sohasida tahlil qilish, shovqinni kamaytirish va kerakli signal komponentini ajratib olish usullari o'rganiladi.",
+  "theory": "AMALIY MASHG'ULOT №20\n\nMavzu: Tasvirlar sifatini oshirish va audio signallarni ajratib olish usullarini tahlil qilish\n\nIshning maqsadi: Ushbu amaliy mashg'ulotning maqsadi MATLAB dasturida raqamli tasvirlar sifatini yaxshilash va audio signallarni qayta ishlash usullarini o'rganishdan iborat. Amaliy mashg'ulot davomida tasvirlarning yorqinligi, kontrasti va aniqligini oshirish, shuningdek audio signalni yuklash, vaqt sohasida tahlil qilish, shovqinni kamaytirish va kerakli signal komponentini ajratib olish usullari o'rganiladi.\n\nTasvir sifatini oshirish - Raqamli tasvirlarni qayta ishlashda tasvir sifati turli sabablarga ko'ra pasayishi mumkin. Masalan:\n\ntasvirning xiralashishi;\n\nyorqinlikning pastligi;\n\nkontrastning yetarli emasligi;\n\nshovqinlarning mavjudligi;\n\ntasvirning kichik o'lchamda bo'lishi.\n\nTasvir sifatini oshirish jarayonida ushbu kamchiliklarni kamaytirish yoki tasvirning muhim xususiyatlarini yaxshilashga harakat qilinadi.\n\nTasvir sifatini oshirishning asosiy usullari:\n\nYorqinlikni o'zgartirish.\n\nKontrastni oshirish.\n\nGistogrammani tekislash.\n\nShovqinni kamaytirish.\n\nFiltrlash.\n\nTasvirni keskinlashtirish.\n\n1.Kontrastni oshirish\n\nKontrast — tasvirdagi yorug' va qorong'i qismlar orasidagi farqni ifodalaydi. MATLABda tasvir kontrastini oshirish uchun imadjust() funksiyasidan foydalanish mumkin.\n\nJ = imadjust(I);\n\nKontrastni oshirish natijasida tasvirdagi obyektlar aniqroq ko'rinishi mumkin.\n\n2. Gistogrammani tekislash\n\nTasvir gistogrammasi tasvirdagi piksel intensivliklarining taqsimlanishini ko'rsatadi.\n\nMATLABda gistogrammani tekislash uchun:\n\nJ = histeq(I);\n\nfunksiyasidan foydalaniladi.\n\nGistogrammani tekislash kontrasti past tasvirlarning sifatini yaxshilashda foydalidir.\n\n3. Audio signal\n\nAudio signal — tovush haqidagi axborotni ifodalovchi vaqt bo'yicha o'zgaruvchi signal. Raqamli audio signal ma'lum diskretlash chastotasida yozib olinadi.\n\nMasalan:\n\nqiymati audio signallar uchun keng tarqalgan diskretlash chastotalaridan biridir.\n\nAudio signal quyidagicha ifodalanishi mumkin:\n\nbu yerda:\n\nAA — signal amplitudasi;\n\nff — signal chastotasi;\n\nnn — diskret vaqt.\n\n1.5. Audio signalni ajratib olish\n\nAudio yozuvda bir nechta signal komponentlari mavjud bo'lishi mumkin. Masalan, nutq signaliga turli shovqinlar qo'shilishi mumkin.\n\nKerakli signalni ajratib olish uchun:\n\npast chastotali filtr;\n\nyuqori chastotali filtr;\n\npolosali filtr;\n\nFurye transformatsiyasi;\n\nspektral tahlil\n\nkabi usullardan foydalaniladi.\n\nMasalan, inson nutqi signalidagi kerakli chastota diapazonini ajratish uchun bandpass filter qo'llash mumkin.\n\nAMALIY QISM\n\n1. Tasvirni MATLAB dasturiga yuklash\n\nMATLAB dasturida standart peppers.png tasviridan foydalanamiz.\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('peppers.png');\n\nfigure;\n\nimshow(I);\n\ntitle('Boshlang'ich tasvir');\n\n2. Tasvir kontrastini oshirish\n\nTasvirni grayscale ko'rinishga o'tkazamiz:\n\nI_gray = rgb2gray(I);\n\nfigure;\n\nimshow(I_gray);\n\ntitle('Kulrang tasvir');\n\nEndi kontrastni oshiramiz:\n\nI_contrast = imadjust(I_gray);\n\nfigure;\n\nimshow(I_contrast);\n\ntitle('Kontrasti oshirilgan tasvir');\n\nBoshlang'ich va yaxshilangan tasvirni birgalikda ko'rsatish:\n\nfigure;\n\nsubplot(1,2,1);\n\nimshow(I_gray);\n\ntitle('Boshlang'ich');\n\nsubplot(1,2,2);\n\nimshow(I_contrast);\n\ntitle('Kontrasti oshirilgan');\n\n3. Gistogrammani tahlil qilish\n\nBoshlang'ich tasvir gistogrammasini ko'ramiz:\n\nfigure;\n\nsubplot(1,2,1);\n\nimshow(I_gray);\n\ntitle('Boshlang'ich tasvir');\n\nsubplot(1,2,2);\n\nimhist(I_gray);\n\ntitle('Tasvir gistogrammasi');\n\nEndi gistogrammani tekislaymiz:\n\nI_equal = histeq(I_gray);\n\nfigure;\n\nsubplot(2,2,1);\n\nimshow(I_gray);\n\ntitle('Boshlang'ich tasvir');\n\nsubplot(2,2,2);\n\nimhist(I_gray);\n\ntitle('Boshlang'ich gistogramma');\n\nsubplot(2,2,3);\n\nimshow(I_equal);\n\ntitle('Gistogrammasi tekislangan');\n\nsubplot(2,2,4);\n\nimhist(I_equal);\n\ntitle('Yangi gistogramma');\n\nBu tajriba orqali tasvir kontrastining gistogrammaga qanday ta'sir qilishini kuzatish mumkin.\n\n4. Tasvirdagi shovqinni kamaytirish\n\nTasvirga sun'iy shovqin qo'shamiz:\n\nI_noise = imnoise(I_gray,'salt & pepper',0.05);\n\nfigure;\n\nimshow(I_noise);\n\ntitle('Shovqin qo'shilgan tasvir');\n\nEndi median filtr yordamida shovqinni kamaytiramiz:\n\nI_filter = medfilt2(I_noise);\n\nfigure;\n\nsubplot(1,2,1);\n\nimshow(I_noise);\n\ntitle('Shovqinli tasvir');\n\nsubplot(1,2,2);\n\nimshow(I_filter);\n\ntitle('Filtrlangan tasvir');\n\nMedian filtr ayniqsa \"salt & pepper\" turidagi shovqinlarni kamaytirishda samarali.\n\n5. Tasvirni keskinlashtirish\n\nTasvirning konturlarini yaxshilash uchun imsharpen() funksiyasidan foydalanamiz.\n\nI_sharp = imsharpen(I_gray);\n\nfigure;\n\nsubplot(1,2,1);\n\nimshow(I_gray);\n\ntitle('Boshlang'ich tasvir');\n\nsubplot(1,2,2);\n\nimshow(I_sharp);\n\ntitle('Keskinlashtirilgan tasvir');\n\n6. Audio signalni MATLABga yuklash\n\nEndi audio signal bilan ishlaymiz.\n\nMATLAB ishchi papkasiga audio.wav nomli audio fayl joylashtiriladi.\n\nclc;\n\nclear;\n\nclose all;\n\n[x,Fs] = audioread('audio.wav');\n\ndisp('Diskretlash chastotasi:');\n\ndisp(Fs);\n\nBu yerda:\n\nx — audio signal;\n\nFs — diskretlash chastotasi.\n\n7. Audio signalni vaqt sohasida ko'rsatish\n\nSignal vaqt o'qida tasvirlanadi:\n\nt = (0:length(x)-1)/Fs;\n\nfigure;\n\nplot(t,x);\n\ngrid on;\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\ntitle('Audio signal');\n\nUshbu grafik orqali audio signalning vaqt davomida qanday o'zgarishini ko'rish mumkin.\n\n8. Audio signal spektrini tahlil qilish\n\nAudio signalning chastota tarkibini aniqlash uchun FFT — Fast Fourier Transform usulidan foydalanamiz.\n\nN = length(x);\n\nX = fft(x);\n\nf = (0:N-1)*(Fs/N);\n\nfigure;\n\nplot(f,abs(X));\n\ngrid on;\n\nxlabel('Chastota, Hz');\n\nylabel('Amplituda');\n\ntitle('Audio signal spektri');\n\nxlim([0 Fs/2]);\n\nBu grafik orqali audio signal tarkibidagi asosiy chastotalarni aniqlash mumkin.\n\n9. Audio signalni filtrlash\n\nMasalan, kerakli chastota diapazonini ajratib olish uchun polosali filtrdan foydalanamiz.\n\nlowFreq = 300;\n\nhighFreq = 3000;\n\ny = bandpass(x,[lowFreq highFreq],Fs);\n\nBu yerda 300–3000 Hz oralig'idagi signal komponentlari ajratib olinadi.\n\nNatijani ko'ramiz:\n\nfigure;\n\nsubplot(2,1,1);\n\nplot(t,x);\n\ngrid on;\n\ntitle('Boshlang'ich audio signal');\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\nsubplot(2,1,2);\n\nplot(t,y);\n\ngrid on;\n\ntitle('Ajratib olingan audio signal');\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\n10. Tasvir va audio signal natijalarini tahlil qilish\n\nAmaliy ish yakunida quyidagi natijalar taqqoslanadi:",
+  "tasks": "11. Mustaqil topshiriqlar\n\n1-topshiriq. MATLAB dasturiga rangli tasvirni yuklang va uni grayscale tasvirga o'tkazing.\n\n2-topshiriq. Tasvirning kontrastini imadjust() yordamida oshiring.\n\n3-topshiriq. Tasvir gistogrammasini hosil qiling va histeq() yordamida gistogrammani tekislang.\n\n4-topshiriq. Tasvirga salt & pepper shovqinini qo'shing va median filtr yordamida shovqinni kamaytiring.\n\n5-topshiriq. Tasvirni imsharpen() yordamida keskinlashtiring va natijalarni taqqoslang.",
+  "report_requirements": "",
+  "conclusion": "Ushbu amaliy mashg'ulotda raqamli tasvirlar sifatini oshirish va audio signallarni qayta ishlash usullari o'rganildi. MATLAB dasturida tasvirning kontrastini oshirish, gistogrammasini tekislash, shovqinni kamaytirish va tasvirni keskinlashtirish amallari bajarildi. Shuningdek, audio signalni MATLAB muhitiga yuklash, uning vaqt va chastota sohasidagi ko'rinishini tahlil qilish hamda polosali filtr yordamida kerakli audio komponentlarini ajratib olish usullari ko'rib chiqildi. Bu usullar raqamli signal va tasvirlarni qayta ishlashning amaliy masalalarida keng qo'llaniladi.",
+  "code_snippets": [
+    "% Tasvir sifatini oshirish va chastotaviy yumshatish\nI = imread('cameraman.png');\nIgray = rgb2gray(I);\nH = fspecial('gaussian', [5 5], 1.5);\nI_smooth = imfilter(Igray, H);\n\nfigure;\nsubplot(1,2,1); imshow(Igray); title('Asl tasvir');\nsubplot(1,2,2); imshow(I_smooth); title('Gauss silliqlash bilan tiklangan tasvir');",
+    "J = histeq(I);",
+    "I = imread('peppers.png');\nfigure;\nimshow(I);\ntitle('Boshlang'ich tasvir');",
+    "figure;\nimshow(I_gray);\ntitle('Kulrang tasvir');",
+    "figure;\nimshow(I_contrast);\ntitle('Kontrasti oshirilgan tasvir');",
+    "figure;\nsubplot(1,2,1);\nimshow(I_gray);\ntitle('Boshlang'ich');\nsubplot(1,2,2);\nimshow(I_contrast);\ntitle('Kontrasti oshirilgan');",
+    "figure;\nsubplot(1,2,1);\nimshow(I_gray);\ntitle('Boshlang'ich tasvir');\nsubplot(1,2,2);\nimhist(I_gray);\ntitle('Tasvir gistogrammasi');",
+    "I_equal = histeq(I_gray);\nfigure;\nsubplot(2,2,1);\nimshow(I_gray);\ntitle('Boshlang'ich tasvir');\nsubplot(2,2,2);\nimhist(I_gray);\ntitle('Boshlang'ich gistogramma');\nsubplot(2,2,3);\nimshow(I_equal);\ntitle('Gistogrammasi tekislangan');\nsubplot(2,2,4);\nimhist(I_equal);\ntitle('Yangi gistogramma');",
+    "figure;\nimshow(I_noise);\ntitle('Shovqin qo'shilgan tasvir');",
+    "I_filter = medfilt2(I_noise);\nfigure;\nsubplot(1,2,1);\nimshow(I_noise);\ntitle('Shovqinli tasvir');\nsubplot(1,2,2);\nimshow(I_filter);\ntitle('Filtrlangan tasvir');",
+    "figure;\nsubplot(1,2,1);\nimshow(I_gray);\ntitle('Boshlang'ich tasvir');\nsubplot(1,2,2);\nimshow(I_sharp);\ntitle('Keskinlashtirilgan tasvir');",
+    "t = (0:length(x)-1)/Fs;\nfigure;\nplot(t,x);\ngrid on;\nxlabel('Vaqt, s');\nylabel('Amplituda');\ntitle('Audio signal');",
+    "N = length(x);\nX = fft(x);\nf = (0:N-1)*(Fs/N);\nfigure;\nplot(f,abs(X));\ngrid on;\nxlabel('Chastota, Hz');\nylabel('Amplituda');\ntitle('Audio signal spektri');\nxlim([0 Fs/2]);",
+    "y = bandpass(x,[lowFreq highFreq],Fs);",
+    "figure;\nsubplot(2,1,1);\nplot(t,x);\ngrid on;\ntitle('Boshlang'ich audio signal');\nxlabel('Vaqt, s');\nylabel('Amplituda');\nsubplot(2,1,2);\nplot(t,y);\ngrid on;\ntitle('Ajratib olingan audio signal');\nxlabel('Vaqt, s');\nylabel('Amplituda');",
+    "3-topshiriq. Tasvir gistogrammasini hosil qiling va histeq() yordamida gistogrammani tekislang.",
+    "histeq() funksiyasining vazifasi nima?",
+    "medfilt2() funksiyasi qanday vazifani bajaradi?"
+  ],
+  "control_questions_raw": [
+    "Tasvir sifatini oshirish deganda nima tushuniladi?",
+    "Tasvir sifatining pasayishiga qanday omillar sabab bo'ladi?",
+    "Kontrast nima?",
+    "MATLABda tasvir kontrastini oshirish uchun qaysi funksiyadan foydalaniladi?",
+    "Gistogramma nima?",
+    "imhist() funksiyasi qanday vazifani bajaradi?",
+    "Gistogrammani tekislash nima uchun ishlatiladi?",
+    "histeq() funksiyasining vazifasi nima?",
+    "Tasvirdagi shovqin nima?",
+    "medfilt2() funksiyasi qanday vazifani bajaradi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "bp_low_hz": 250,
+        "bp_high_hz": 2700,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "bp_low_hz": 300,
+        "bp_high_hz": 2900,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "bp_low_hz": 350,
+        "bp_high_hz": 3100,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "bp_low_hz": 400,
+        "bp_high_hz": 3300,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "bp_low_hz": 200,
+        "bp_high_hz": 2500,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "bp_low_hz": 250,
+        "bp_high_hz": 2700,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "bp_low_hz": 300,
+        "bp_high_hz": 2900,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "bp_low_hz": 350,
+        "bp_high_hz": 3100,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "bp_low_hz": 400,
+        "bp_high_hz": 3300,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "bp_low_hz": 200,
+        "bp_high_hz": 2500,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "bp_low_hz": 250,
+        "bp_high_hz": 2700,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "bp_low_hz": 300,
+        "bp_high_hz": 2900,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "bp_low_hz": 350,
+        "bp_high_hz": 3100,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "bp_low_hz": 400,
+        "bp_high_hz": 3300,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "bp_low_hz": 200,
+        "bp_high_hz": 2500,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "bp_low_hz": 250,
+        "bp_high_hz": 2700,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "bp_low_hz": 300,
+        "bp_high_hz": 2900,
+        "sharpen_radius": 3
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "bp_low_hz": 350,
+        "bp_high_hz": 3100,
+        "sharpen_radius": 1
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "bp_low_hz": 400,
+        "bp_high_hz": 3300,
+        "sharpen_radius": 2
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "bp_low_hz": 200,
+        "bp_high_hz": 2500,
+        "sharpen_radius": 3
+      }
+    }
+  ],
+  "raw_tables_count": 1
+}

@@ -1,0 +1,172 @@
+{
+  "lab_number": 19,
+  "title": "Tasvirlar sifatini oshirish va audio signallarni ajratib olish usullarini tahlil qilish",
+  "objective": "MATLAB dasturida tasvir sifatini yaxshilash va audio signal tarkibidan kerakli chastota komponentlarini ajratib olish usullarini o'rganish.",
+  "theory": "AMALIY MASHG'ULOT№19\n\nMavzu: Tasvirlar sifatini oshirish va audio signallarni ajratib olish usullarini tahlil qilish\n\nIshning maqsadi: MATLAB dasturida tasvir sifatini yaxshilash va audio signal tarkibidan kerakli chastota komponentlarini ajratib olish usullarini o'rganish.\n\n1-topshiriq. Tasvir sifatini oshirish va shovqinni kamaytirish\n\nIshning bajarilish tartibi\n\nMATLAB dasturiga tasvirni yuklang:\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('image.jpg');\n\nfigure;\n\nimshow(I);\n\ntitle('Boshlang'ich tasvir');\n\nRangli tasvirni kulrang tasvirga o'tkazing:\n\nI_gray = rgb2gray(I);\n\nTasvirga shovqin qo'shing:\n\nI_noise = imnoise(I_gray, 'salt & pepper', 0.05);\n\nMedian filtr yordamida shovqinni kamaytiring:\n\nI_filtered = medfilt2(I_noise, [3 3]);\n\nNatijalarni birgalikda ko'rsating:\n\nfigure;\n\nsubplot(1,3,1);\n\nimshow(I_gray);\n\ntitle('Boshlang'ich tasvir');\n\nsubplot(1,3,2);\n\nimshow(I_noise);\n\ntitle('Shovqinli tasvir');\n\nsubplot(1,3,3);\n\nimshow(I_filtered);\n\ntitle('Filtrlangan tasvir');\n\nTalaba bajarishi kerak:\n\nIstalgan tasvirni MATLAB dasturiga yuklash.\n\nTasvirni kulrang ko'rinishga o'tkazish.\n\nTasvirga shovqin qo'shish.\n\nMedian filtrdan foydalanib shovqinni kamaytirish.\n\nUchta tasvirni taqqoslash.\n\nQaysi tasvir sifat jihatidan yaxshiroq ekanligini aniqlash.\n\n2-topshiriq. Audio signalni ajratib olish va tahlil qilish\n\nIshning bajarilish tartibi\n\nAudio faylni MATLAB dasturiga yuklang:\n\nclc;\n\nclear;\n\nclose all;\n\n[x, Fs] = audioread('audio.wav');\n\nAudio signalning vaqt o'qidagi ko'rinishini hosil qiling:\n\nt = (0:length(x)-1)/Fs;\n\nfigure;\n\nplot(t, x);\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\ntitle('Boshlang'ich audio signal');\n\ngrid on;\n\nAudio signalni chastota sohasida tahlil qiling:\n\nN = length(x);\n\nX = fft(x);\n\nf = (0:N-1)*(Fs/N);\n\nfigure;\n\nplot(f, abs(X));\n\nxlabel('Chastota, Hz');\n\nylabel('Amplituda');\n\ntitle('Audio signal spektri');\n\nxlim([0 Fs/2]);\n\ngrid on;\n\nEndi kerakli chastota diapazonini ajratib olish uchun past chastotali filtrdan foydalanamiz:\n\nfc = 3000;\n\n[b, a] = butter(6, fc/(Fs/2), 'low');\n\nx_filtered = filter(b, a, x);\n\nFiltrlangan signalni ko'rsating:\n\nfigure;\n\nsubplot(2,1,1);\n\nplot(t, x);\n\ntitle('Boshlang'ich audio signal');\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\ngrid on;\n\nsubplot(2,1,2);\n\nplot(t, x_filtered);\n\ntitle('Filtrlangan audio signal');\n\nxlabel('Vaqt, s');\n\nylabel('Amplituda');\n\ngrid on;\n\nFiltrlangan audio signalni eshiting:\n\nsound(x_filtered, Fs);\n\nTalaba bajarishi kerak:\n\nAudio faylni MATLAB dasturiga yuklash.\n\nAudio signalning vaqt bo'yicha grafigini qurish.\n\nFFT yordamida signal spektrini olish.\n\nSignal tarkibidagi asosiy chastotalarni aniqlash.\n\nPast chastotali filtr yordamida kerakli signal qismini ajratish.\n\nBoshlang'ich va filtrlangan audio signallarni taqqoslash.",
+  "tasks": "",
+  "report_requirements": "",
+  "conclusion": "Amaliy mashg'ulot davomida MATLAB dasturida tasvir sifatini yaxshilash, tasvirdagi shovqinni kamaytirish hamda audio signalni chastota sohasida tahlil qilish va kerakli chastota komponentlarini filtr yordamida ajratib olish usullari o'rganiladi.",
+  "code_snippets": [
+    "% Tasvir sifatini oshirish (Gistogramma tenglashtirish va Kontrast)\nI = imread('cameraman.png');\nIgray = rgb2gray(I);\nI_eq = histeq(Igray);\n\nfigure;\nsubplot(2,2,1); imshow(Igray); title('Dastlabki tasvir');\nsubplot(2,2,2); imhist(Igray); title('Dastlabki gistogramma');\nsubplot(2,2,3); imshow(I_eq); title('Kontrasti oshirilgan tasvir');\nsubplot(2,2,4); imhist(I_eq); title('Tenglashtirilgan gistogramma');",
+    "I = imread('image.jpg');\nfigure;\nimshow(I);\ntitle('Boshlang'ich tasvir');",
+    "I_filtered = medfilt2(I_noise, [3 3]);",
+    "figure;\nsubplot(1,3,1);\nimshow(I_gray);\ntitle('Boshlang'ich tasvir');\nsubplot(1,3,2);\nimshow(I_noise);\ntitle('Shovqinli tasvir');\nsubplot(1,3,3);\nimshow(I_filtered);\ntitle('Filtrlangan tasvir');",
+    "t = (0:length(x)-1)/Fs;\nfigure;\nplot(t, x);\nxlabel('Vaqt, s');\nylabel('Amplituda');\ntitle('Boshlang'ich audio signal');\ngrid on;",
+    "N = length(x);\nX = fft(x);\nf = (0:N-1)*(Fs/N);\nfigure;\nplot(f, abs(X));\nxlabel('Chastota, Hz');\nylabel('Amplituda');\ntitle('Audio signal spektri');\nxlim([0 Fs/2]);\ngrid on;",
+    "x_filtered = filter(b, a, x);",
+    "figure;\nsubplot(2,1,1);\nplot(t, x);\ntitle('Boshlang'ich audio signal');\nxlabel('Vaqt, s');\nylabel('Amplituda');\ngrid on;\nsubplot(2,1,2);\nplot(t, x_filtered);\ntitle('Filtrlangan audio signal');\nxlabel('Vaqt, s');\nylabel('Amplituda');\ngrid on;"
+  ],
+  "control_questions_raw": [
+    "Tasvir sifatini oshirish nima uchun kerak?",
+    "Median filtr qanday vazifani bajaradi?",
+    "Tasvirga shovqin nima sababdan qo'shiladi?",
+    "Audio signalning diskretlash chastotasi nima?",
+    "FFT qanday vazifani bajaradi?",
+    "Audio signal spektri nimani ko'rsatadi?",
+    "Past chastotali filtr nima uchun ishlatiladi?",
+    "MATLAB dasturida audio faylni o'qish uchun qaysi funksiya ishlatiladi?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "cutoff_hz": 2500,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "cutoff_hz": 3000,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "cutoff_hz": 3500,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "cutoff_hz": 4000,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "cutoff_hz": 2000,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "cutoff_hz": 2500,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "cutoff_hz": 3000,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "cutoff_hz": 3500,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "cutoff_hz": 4000,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "cutoff_hz": 2000,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "cutoff_hz": 2500,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "cutoff_hz": 3000,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "cutoff_hz": 3500,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "cutoff_hz": 4000,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "cutoff_hz": 2000,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "cutoff_hz": 2500,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "cutoff_hz": 3000,
+        "filter_order": 8
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "cutoff_hz": 3500,
+        "filter_order": 4
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "cutoff_hz": 4000,
+        "filter_order": 6
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "cutoff_hz": 2000,
+        "filter_order": 8
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}

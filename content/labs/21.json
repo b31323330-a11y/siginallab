@@ -1,0 +1,197 @@
+{
+  "lab_number": 21,
+  "title": "Signal va tasvirlarda ma'lumotlarni tiklash (restavratsiya) usullarini o'rganish",
+  "objective": "Ushbu amaliy mashg'ulotning maqsadi signal va tasvirlarda buzilgan yoki yo'qolgan ma'lumotlarni qayta tiklash usullarini o'rganish, MATLAB dasturida shovqin bilan buzilgan tasvir va signallarni restavratsiya qilish, filtrlash usullarining natijalarini taqqoslash hamda tiklangan ma'lumotlar sifatini baholashdan iborat.",
+  "theory": "Amaliy mashg'ulot №21\n\nMavzu: Signal va tasvirlarda ma'lumotlarni tiklash (restavratsiya) usullarini o'rganish\n\nIshning maqsadi: Ushbu amaliy mashg'ulotning maqsadi signal va tasvirlarda buzilgan yoki yo'qolgan ma'lumotlarni qayta tiklash usullarini o'rganish, MATLAB dasturida shovqin bilan buzilgan tasvir va signallarni restavratsiya qilish, filtrlash usullarining natijalarini taqqoslash hamda tiklangan ma'lumotlar sifatini baholashdan iborat.\n\nSignal va tasvirlarni qayta ishlash jarayonida turli sabablarga ko'ra ma'lumotlar buzilishi mumkin. Masalan, aloqa kanalidagi shovqin, qurilmalarning nosozligi, signalni uzatishdagi xatoliklar, tasvirni olish vaqtida yuzaga keladigan xiralashish yoki tasvirning ayrim qismlarining yo'qolishi ma'lumot sifatining pasayishiga olib keladi. Restavratsiya — buzilgan signal yoki tasvirni mavjud ma'lumotlar asosida imkon qadar dastlabki holatiga yaqinlashtirish jarayonidir.\n\nSignal va tasvirlarni restavratsiya qilishda quyidagi usullardan foydalaniladi:\n\n1. Filtrlash.\n\tFiltrlash signal yoki tasvirdagi keraksiz shovqinlarni kamaytirish uchun ishlatiladi. Eng ko'p qo'llaniladigan filtrlar:\n\no'rtacha qiymat filtri;\n\nmedian filtri;\n\nGauss filtri;\n\npast chastotali filtr;\n\nyuqori chastotali filtr.\n\n2. Median filtrlash.\n\nMedian filtr impulsli shovqinlarni, masalan, \"tuz va murch\" (salt & pepper) shovqinini kamaytirishda samarali hisoblanadi. Tasvirning har bir nuqtasi atrofidagi qiymatlar tartiblanib, markaziy qiymat median qiymat bilan almashtiriladi.\n\n3. Tasvirni xiralashtirishni tiklash.\n\nHarakat yoki optik tizim sababli tasvir xiralashishi mumkin. MATLABda deconvwnr funksiyasi yordamida Wiener dekonvolyutsiyasi orqali tasvirni tiklash mumkin.\n\n4. Signalni tiklash.\nAudio yoki boshqa raqamli signallarda shovqinni kamaytirish uchun past chastotali, yuqori chastotali yoki polosali filtrlar qo'llaniladi.\n\nSignalni tiklashning umumiy jarayoni quyidagicha:\n\nBuzilgan signal → Filtrlash → Keraksiz shovqinni kamaytirish → Tiklangan signal\n\nTasvir uchun:\n\nOriginal tasvir → Buzilish/shovqin qo'shish → Restavratsiya → Tiklangan tasvir\n\nAMALIY QISM\n\n1. Tasvirni yuklash\n\nMATLAB dasturini ishga tushiring va quyidagi kodni kiriting:\n\nclc;\n\nclear;\n\nclose all;\n\nI = imread('peppers.png');\n\nfigure;\n\nimshow(I);\n\ntitle('Original tasvir');\n\nBu yerda peppers.png — MATLAB tarkibida mavjud namunaviy tasvir.\n\n2. Tasvirga shovqin qo'shish\n\nTasvirni restavratsiya qilish uchun avval uni sun'iy ravishda buzamiz.\n\nI_gray = rgb2gray(I);\n\nI_noisy = imnoise(I_gray, 'salt & pepper', 0.08);\n\nfigure;\n\nimshow(I_noisy);\n\ntitle('Shovqin bilan buzilgan tasvir');\n\nBu yerda:\n\nrgb2gray() — rangli tasvirni kulrang tasvirga aylantiradi;\n\nimnoise() — tasvirga shovqin qo'shadi;\n\n0.08 — shovqin zichligini bildiradi.\n\n3. Median filtr yordamida tasvirni tiklash\n\nEndi buzilgan tasvirga median filtr qo'llaymiz.\n\nI_restored = medfilt2(I_noisy, [3 3]);\n\nfigure;\n\nimshow(I_restored);\n\ntitle('Median filtr yordamida tiklangan tasvir');\n\nmedfilt2() ikki o'lchamli tasvir uchun median filtrni amalga oshiradi.\n\n[3 3] — filtr oynasining o'lchami.\n\n4. Natijalarni taqqoslash\n\nOriginal, buzilgan va tiklangan tasvirlarni bir oynada ko'rsatish:\n\nfigure;\n\nsubplot(1,3,1);\n\nimshow(I_gray);\n\ntitle('Original');\n\nsubplot(1,3,2);\n\nimshow(I_noisy);\n\ntitle('Buzilgan');\n\nsubplot(1,3,3);\n\nimshow(I_restored);\n\ntitle('Tiklangan');\n\nBu orqali restavratsiyadan oldingi va keyingi tasvirlarni vizual ravishda taqqoslash mumkin.\n\n5. Tasvirni xiralashtirish va tiklash\n\nTasvirga xiralashtirish effektini beramiz:\n\nPSF = fspecial('motion', 15, 30);\n\nI_blur = imfilter(I_gray, PSF, 'conv', 'circular');\n\nfigure;\n\nimshow(I_blur);\n\ntitle('Xiralashtirilgan tasvir');\n\nBu yerda fspecial() yordamida harakat natijasida hosil bo'ladigan xiralashish modeli yaratiladi.\n\nEndi Wiener dekonvolyutsiyasi yordamida tasvirni tiklaymiz:\n\nI_wiener = deconvwnr(I_blur, PSF);\n\nfigure;\n\nimshow(I_wiener);\n\ntitle('Wiener usuli bilan tiklangan tasvir');\n\n6. Audio signalni yuklash\n\nEndi signalni restavratsiya qilishni ko'rib chiqamiz.\n\nMATLAB ishchi papkasiga audio.wav nomli audio fayl joylashtiriladi.\n\n[y, Fs] = audioread('audio.wav');\n\nt = (0:length(y)-1)/Fs;\n\nfigure;\n\nplot(t, y);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('Original audio signal');\n\ngrid on;\n\nBu yerda:\n\ny — audio signal qiymatlari;\n\nFs — diskretlash chastotasi;\n\nt — vaqt o'qi.\n\n7. Audio signalga shovqin qo'shish\n\nSignalga sun'iy shovqin qo'shamiz:\n\nnoise = 0.05 * randn(size(y));\n\ny_noisy = y + noise;\n\nfigure;\n\nplot(t, y_noisy);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('Shovqin bilan buzilgan audio signal');\n\ngrid on;\n\nrandn() tasodifiy normal taqsimlangan shovqin hosil qiladi.\n\n8. Audio signalni filtr yordamida tiklash\n\nShovqinni kamaytirish uchun past chastotali filtrdan foydalanamiz.\n\ny_restored = lowpass(y_noisy, 4000, Fs);\n\nfigure;\n\nplot(t, y_restored);\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ntitle('Filtr yordamida tiklangan audio signal');\n\ngrid on;\n\nBu yerda lowpass() signalning yuqori chastotali qismlarini kamaytiradi.\n\n9. Original va tiklangan signallarni taqqoslash\n\nfigure;\n\nsubplot(3,1,1);\n\nplot(t, y);\n\ntitle('Original signal');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ngrid on;\n\nsubplot(3,1,2);\n\nplot(t, y_noisy);\n\ntitle('Shovqin bilan buzilgan signal');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ngrid on;\n\nsubplot(3,1,3);\n\nplot(t, y_restored);\n\ntitle('Tiklangan signal');\n\nxlabel('Vaqt (s)');\n\nylabel('Amplituda');\n\ngrid on;\n\nNatijada uchta signalni taqqoslash mumkin:\n\ndastlabki signal;\n\nshovqin bilan buzilgan signal;\n\nfiltr yordamida tiklangan signal.",
+  "tasks": "AMALIY ISH BO'YICHA TOPSHIRIQ\n\nMATLAB dasturida peppers.png tasvirini yuklang.\n\nTasvirni kulrang ko'rinishga o'tkazing.\n\nTasvirga salt & pepper shovqinini qo'shing.\n\nMedian filtr yordamida tasvirni tiklang.\n\nOriginal, buzilgan va tiklangan tasvirlarni taqqoslang.\n\nTasvirga harakat xiralashishini qo'llang.\n\nWiener dekonvolyutsiyasi yordamida tasvirni tiklang.\n\naudio.wav faylini MATLABga yuklang.\n\nAudio signalga tasodifiy shovqin qo'shing.\n\nPast chastotali filtr yordamida signalni tiklang.\n\nOriginal, buzilgan va tiklangan signallarni grafik ko'rinishda taqqoslang.\n\nTiklangan audio signalni eshiting va natijani baholang.",
+  "report_requirements": "",
+  "conclusion": "",
+  "code_snippets": [
+    "% Tasvirlarni restavratsiya qilish (Viner filtri)\nI = imread('cameraman.png');\nIgray = rgb2gray(I);\nI_noisy = imnoise(Igray, 'gaussian', 0, 0.02);\nI_restored = medfilt2(I_noisy, [3 3]);\n\nfigure;\nsubplot(1,3,1); imshow(Igray); title('Asl etalon tasvir');\nsubplot(1,3,2); imshow(I_noisy); title('Xiralashgan va shovqinli tasvir');\nsubplot(1,3,3); imshow(I_restored); title('Restavratsiya qilingan tasvir');",
+    "I = imread('peppers.png');\nfigure;\nimshow(I);\ntitle('Original tasvir');",
+    "figure;\nimshow(I_noisy);\ntitle('Shovqin bilan buzilgan tasvir');",
+    "I_restored = medfilt2(I_noisy, [3 3]);\nfigure;\nimshow(I_restored);\ntitle('Median filtr yordamida tiklangan tasvir');\nmedfilt2() ikki o'lchamli tasvir uchun median filtrni amalga oshiradi.",
+    "figure;\nsubplot(1,3,1);\nimshow(I_gray);\ntitle('Original');\nsubplot(1,3,2);\nimshow(I_noisy);\ntitle('Buzilgan');\nsubplot(1,3,3);\nimshow(I_restored);\ntitle('Tiklangan');",
+    "I_blur = imfilter(I_gray, PSF, 'conv', 'circular');\nfigure;\nimshow(I_blur);\ntitle('Xiralashtirilgan tasvir');",
+    "figure;\nimshow(I_wiener);\ntitle('Wiener usuli bilan tiklangan tasvir');",
+    "t = (0:length(y)-1)/Fs;\nfigure;\nplot(t, y);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('Original audio signal');\ngrid on;",
+    "figure;\nplot(t, y_noisy);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('Shovqin bilan buzilgan audio signal');\ngrid on;",
+    "figure;\nplot(t, y_restored);\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ntitle('Filtr yordamida tiklangan audio signal');\ngrid on;",
+    "figure;\nsubplot(3,1,1);\nplot(t, y);\ntitle('Original signal');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ngrid on;\nsubplot(3,1,2);\nplot(t, y_noisy);\ntitle('Shovqin bilan buzilgan signal');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ngrid on;\nsubplot(3,1,3);\nplot(t, y_restored);\ntitle('Tiklangan signal');\nxlabel('Vaqt (s)');\nylabel('Amplituda');\ngrid on;",
+    "medfilt2() funksiyasining vazifasi nima?"
+  ],
+  "control_questions_raw": [
+    "Restavratsiya tushunchasi nima?",
+    "Signal va tasvirlarni nima sababdan restavratsiya qilish zarur?",
+    "Tasvirlarda qanday turdagi buzilishlar uchraydi?",
+    "Median filtr qanday ishlaydi?",
+    "salt & pepper shovqini nima?",
+    "MATLABda tasvirga shovqin qo'shish uchun qaysi funksiya ishlatiladi?",
+    "medfilt2() funksiyasining vazifasi nima?",
+    "Wiener dekonvolyutsiyasi nima uchun ishlatiladi?",
+    "Audio signalni tiklashda filtrlarning qanday ahamiyati bor?"
+  ],
+  "variants": [
+    {
+      "variant": 1,
+      "parameters": {
+        "motion_len": 13,
+        "motion_theta": 30,
+        "nsr": 0.01
+      }
+    },
+    {
+      "variant": 2,
+      "parameters": {
+        "motion_len": 16,
+        "motion_theta": 45,
+        "nsr": 0.015
+      }
+    },
+    {
+      "variant": 3,
+      "parameters": {
+        "motion_len": 19,
+        "motion_theta": 60,
+        "nsr": 0.02
+      }
+    },
+    {
+      "variant": 4,
+      "parameters": {
+        "motion_len": 22,
+        "motion_theta": 75,
+        "nsr": 0.025
+      }
+    },
+    {
+      "variant": 5,
+      "parameters": {
+        "motion_len": 10,
+        "motion_theta": 90,
+        "nsr": 0.005
+      }
+    },
+    {
+      "variant": 6,
+      "parameters": {
+        "motion_len": 13,
+        "motion_theta": 15,
+        "nsr": 0.01
+      }
+    },
+    {
+      "variant": 7,
+      "parameters": {
+        "motion_len": 16,
+        "motion_theta": 30,
+        "nsr": 0.015
+      }
+    },
+    {
+      "variant": 8,
+      "parameters": {
+        "motion_len": 19,
+        "motion_theta": 45,
+        "nsr": 0.02
+      }
+    },
+    {
+      "variant": 9,
+      "parameters": {
+        "motion_len": 22,
+        "motion_theta": 60,
+        "nsr": 0.025
+      }
+    },
+    {
+      "variant": 10,
+      "parameters": {
+        "motion_len": 10,
+        "motion_theta": 75,
+        "nsr": 0.005
+      }
+    },
+    {
+      "variant": 11,
+      "parameters": {
+        "motion_len": 13,
+        "motion_theta": 90,
+        "nsr": 0.01
+      }
+    },
+    {
+      "variant": 12,
+      "parameters": {
+        "motion_len": 16,
+        "motion_theta": 15,
+        "nsr": 0.015
+      }
+    },
+    {
+      "variant": 13,
+      "parameters": {
+        "motion_len": 19,
+        "motion_theta": 30,
+        "nsr": 0.02
+      }
+    },
+    {
+      "variant": 14,
+      "parameters": {
+        "motion_len": 22,
+        "motion_theta": 45,
+        "nsr": 0.025
+      }
+    },
+    {
+      "variant": 15,
+      "parameters": {
+        "motion_len": 10,
+        "motion_theta": 60,
+        "nsr": 0.005
+      }
+    },
+    {
+      "variant": 16,
+      "parameters": {
+        "motion_len": 13,
+        "motion_theta": 75,
+        "nsr": 0.01
+      }
+    },
+    {
+      "variant": 17,
+      "parameters": {
+        "motion_len": 16,
+        "motion_theta": 90,
+        "nsr": 0.015
+      }
+    },
+    {
+      "variant": 18,
+      "parameters": {
+        "motion_len": 19,
+        "motion_theta": 15,
+        "nsr": 0.02
+      }
+    },
+    {
+      "variant": 19,
+      "parameters": {
+        "motion_len": 22,
+        "motion_theta": 30,
+        "nsr": 0.025
+      }
+    },
+    {
+      "variant": 20,
+      "parameters": {
+        "motion_len": 10,
+        "motion_theta": 45,
+        "nsr": 0.005
+      }
+    }
+  ],
+  "raw_tables_count": 0
+}
